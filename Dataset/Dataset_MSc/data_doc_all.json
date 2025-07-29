@@ -1,0 +1,436 @@
+{
+    "OMNI": [
+        {
+            "Name": "Spacecraft ID (IMF)",
+            "LongDescription": "Spacecraft ID"
+        },
+        {
+            "Name": "Spacecraft ID (Plasma)",
+            "LongDescription": "OMNI ID code for the source spacecraft for time-shifted IP plasma values (see OMNI documentation link for codes)"
+        },
+        {
+            "Name": "ae (Omni)",
+            "LongDescription": "AE - 5-minute AE-index, from WDC Kyoto (Final 1988/001-1988/182, Provisional 1990/001-2019/365)"
+        },
+        {
+            "Name": "AL (Omni)",
+            "LongDescription": "AL - 5-minute AL-index, from WDC Kyoto (Final 1988/001-1988/182, Provisional 1990/001-2019/365)"
+        },
+        {
+            "Name": "Au (Omni)",
+            "LongDescription": "AU - 5-minute AU-index,from WDC Kyoto  (Final 1988/001-1988/182, Provisional 1990/001-2019/365)"
+        },
+        {
+            "Name": "SymD (Omni)",
+            "LongDescription": "SYM/D - 5-minute SYM/D index,from WDC Kyoto (1981/001-2024/091)"
+        },
+        {
+            "Name": "SymH (Omni)",
+            "LongDescription": "SYM/H - 5-minute SYM/H index,from WDC Kyoto (1981/001-2024/091)"
+        },
+        {
+            "Name": "AsyD (Omni)",
+            "LongDescription": "ASY/D - 5-minute ASY/D index,from WDC Kyoto (1981/001-2024/091)"
+        },
+        {
+            "Name": "AsyH (Omni)",
+            "LongDescription": "ASY/H - 5-minute ASY/H index,from WDC Kyoto (1981/001-2024/091)"
+        },
+        {
+            "Name": "Percent Interpolated",
+            "LongDescription": "Percent interpolated"
+        },
+        {
+            "Name": "Timeshift (seconds)",
+            "LongDescription": "Timeshift (seconds)"
+        },
+        {
+            "Name": "Time between observations (seconds)",
+            "LongDescription": "Time between observations (seconds)"
+        },
+        {
+            "Name": "|avg B|",
+            "LongDescription": "Magnitude of avg. field vector (nT) (last currently-available OMNI B-field data Mar 10, 2024)"
+        },
+        {
+            "Name": "Flow Speed (km/s",
+            "LongDescription": "Flow Speed (km/s), GSE"
+        },
+        {
+            "Name": "Proton density (n/cc)",
+            "LongDescription": "Proton density (n/cc) (last currently-available OMNI plasma data Mar 10,2024)"
+        },
+        {
+            "Name": "Temperature (K)",
+            "LongDescription": "Temperature (K)"
+        },
+        {
+            "Name": "Alpha/Proton Ratio",
+            "LongDescription": "Alpha/Proton Density Ratio"
+        },
+        {
+            "Name": "Flow pressure (nPa)",
+            "LongDescription": "Flow pressure (nPa)"
+        },
+        {
+            "Name": "Electric Field (Mv/m)",
+            "LongDescription": " Electric Field (mV/m)"
+        },
+        {
+            "Name": "Plasma beta",
+            "LongDescription": "Plasma beta"
+        },
+        {
+            "Name": "Alfven mach number",
+            "LongDescription": "Alfven mach number"
+        },
+        {
+            "Name": "Magnetosonic mach number",
+            "LongDescription": "1AU IP Magnetosonic mach number"
+        },
+        {
+            "Name": "Vx Velocity (km/s)",
+            "LongDescription": "Vx Velocity (km/s), GSE"
+        },
+        {
+            "Name": "Vy Velocity (km/s)",
+            "LongDescription": "Vy Velocity (km/s), GSE"
+        },
+        {
+            "Name": "Vz Velocity (km/s)",
+            "LongDescription": "Vz Velocity (km/s), GSE"
+        },
+        {
+            "Name": "Bx GSE",
+            "LongDescription": "Bx (nT), GSE"
+        },
+        {
+            "Name": "By GSE",
+            "LongDescription": "By (nT), GSE"
+        },
+        {
+            "Name": "Bz GSE",
+            "LongDescription": "Bz (nT), GSE"
+        },
+        {
+            "Name": "Bx GSM",
+            "LongDescription": "Bx (nT), GSM, determined from post-shift GSE components"
+        },
+        {
+            "Name": "By GSM",
+            "LongDescription": "By (nT), GSM, determined from post-shift GSE components"
+        },
+        {
+            "Name": "Bz GSM",
+            "LongDescription": "Bz (nT), GSM, determined from post-shift GSE components"
+        },
+        {
+            "Name": "Spacecraft Position x",
+            "LongDescription": "X s/c (Re), GSE"
+        },
+        {
+            "Name": "Spacecraft Position y",
+            "LongDescription": "Y s/c (Re), GSE"
+        },
+        {
+            "Name": "Spacecraft Position z",
+            "LongDescription": "Z s/c (Re), GSE"
+        },
+        {
+            "Name": "Bow Shock Nose Position x",
+            "LongDescription": "Bow Shock Nose (Re) location, X, GSE"
+        },
+        {
+            "Name": "Bow Shock Nose Position y",
+            "LongDescription": "Bow Shock Nose (Re) location, Y, GSE"
+        },
+        {
+            "Name": "Bow Shock Nose Position z",
+            "LongDescription": "Bow Shock Nose (Re) location, Z, GSE"
+        },
+        {
+            "Name": "RMS SD B scalar (nT)",
+            "LongDescription": "RMS SD B scalar (nT)"
+        },
+        {
+            "Name": "RMS SD B vector (nT)",
+            "LongDescription": "RMS SD field vector (nT)"
+        },
+        {
+            "Name": "RMS Timeshift (seconds)",
+            "LongDescription": "RMS Timeshift (seconds)"
+        },
+        {
+            "Name": "# fine scale IMF points",
+            "LongDescription": "Number of fine time scale points in IMF averages"
+        },
+        {
+            "Name": "# fine scale Plasma points",
+            "LongDescription": "Number of fine time scale points in plasma averages"
+        }
+    ],
+    "LASP": [
+        {
+            "Name": "F10.7 (LASP)",
+            "LongDescription": "10.7cm Solar Radio Flux (solar flux unit (SFU))"
+        },
+        {
+            "Name": "F30 (LASP)",
+            "LongDescription": "30cm Absolute Solar Radio Flux (solar flux unit (SFU))"
+        },
+        {
+            "Name": "Kp (LASP)",
+            "LongDescription": "K-Planetary Index"
+        },
+        {
+            "Name": "ap (LASP)",
+            "LongDescription": "ap geomagentic index (nT)"
+        },
+        {
+            "Name": "Dst (nT) (LASP)",
+            "LongDescription": "Disturbance storm time index (nT)"
+        }
+    ],
+    "BERNESE": [
+        {
+            "Name": "SVN",
+            "LongDescription": "Satellite number"
+        },
+        {
+            "Name": "X_IN",
+            "LongDescription": "Satellite X position in J2000"
+        },
+        {
+            "Name": "Y_IN",
+            "LongDescription": "Satellite Y position in J2000"
+        },
+        {
+            "Name": "Z_IN",
+            "LongDescription": "Satellite Z position in J2000"
+        },
+        {
+            "Name": "VX_IN",
+            "LongDescription": "Satellite X velocity in J2000"
+        },
+        {
+            "Name": "VY_IN",
+            "LongDescription": "Satellite Y velocity in J2000"
+        },
+        {
+            "Name": "VZ_IN",
+            "LongDescription": "Satellite Z velocity in J2000"
+        },
+        {
+            "Name": "X_EF",
+            "LongDescription": "Satellite X position in Earth-fixed frame"
+        },
+        {
+            "Name": "Y_EF",
+            "LongDescription": "Satellite Y position in Earth-fixed frame"
+        },
+        {
+            "Name": "Z_EF",
+            "LongDescription": "Satellite Z position in Earth-fixed frame"
+        },
+        {
+            "Name": "r",
+            "LongDescription": "Geocentric distance"
+        },
+        {
+            "Name": "lat_sph",
+            "LongDescription": "Spherical geographic latitude"
+        },
+        {
+            "Name": "lon_sph",
+            "LongDescription": "Spherical geographic longitude"
+        },
+        {
+            "Name": "lat_ell",
+            "LongDescription": "Ellipsoidal latitude (WGS-84)"
+        },
+        {
+            "Name": "lon_ell",
+            "LongDescription": "Ellipsoidal longitude (WGS-84)"
+        },
+        {
+            "Name": "h_ell",
+            "LongDescription": "Ellipsoidal height (WGS-84)"
+        },
+        {
+            "Name": "u_sat",
+            "LongDescription": "Satellite argument of latitude"
+        },
+        {
+            "Name": "beta_sun",
+            "LongDescription": "Sun beta angle"
+        },
+        {
+            "Name": "u_sun",
+            "LongDescription": "Sun argument of latitude"
+        },
+        {
+            "Name": "a [m]",
+            "LongDescription": "Semimajor axis"
+        },
+        {
+            "Name": "e [-]",
+            "LongDescription": "Eccentricity"
+        },
+        {
+            "Name": "i [deg]",
+            "LongDescription": "Inclination"
+        },
+        {
+            "Name": "Omega [deg]",
+            "LongDescription": "Longitude of the ascending node"
+        },
+        {
+            "Name": "omega [deg]",
+            "LongDescription": "Argument of periapsis"
+        },
+        {
+            "Name": "T0 [s]",
+            "LongDescription": "Time of periapsis passage"
+        },
+        {
+            "Name": "rho [kg/m^3]",
+            "LongDescription": "Atmospheric density"
+        },
+        {
+            "Name": "air_x [nm/s^2]",
+            "LongDescription": "Aerodynamic acceleration in J2000 (unscaled)"
+        },
+        {
+            "Name": "air_y [nm/s^2]",
+            "LongDescription": "Aerodynamic acceleration in J2000 (unscaled)"
+        },
+        {
+            "Name": "air_z [nm/s^2]",
+            "LongDescription": "Aerodynamic acceleration in J2000 (unscaled)"
+        },
+        {
+            "Name": "VX_EF [m/s]",
+            "LongDescription": "Satellite velocity in Earth-fixed frame (HWM applied)"
+        },
+        {
+            "Name": "VY_EF [m/s]",
+            "LongDescription": "Satellite velocity in Earth-fixed frame (HWM applied)"
+        },
+        {
+            "Name": "VZ_EF [m/s]",
+            "LongDescription": "Satellite velocity in Earth-fixed frame (HWM applied)"
+        },
+        {
+            "Name": "V [m^2/s^2]",
+            "LongDescription": "Total gravitational potential"
+        }
+    ],
+    "SPACETRACK": [
+        {
+            "Name": "a [m] TLE",
+            "LongDescription": "Semimajor axis from TLE data"
+        }
+    ],
+    "STL": [
+        {
+            "Name": "trend",
+            "LongDescription": "STL Trend (every 14 days where possible, or max possible where inbetween maneuvers)"
+        },
+        {
+            "Name": "residual",
+            "LongDescription": "STL Residual (every 14 days where possible, or max possible where inbetween maneuvers)"
+        },
+        {
+            "Name": "unresolved",
+            "LongDescription": "STL Trend + Residual (every 14 days where possible, or max possible where inbetween maneuvers)"
+        },
+        {
+            "Name": "seasonal_1",
+            "LongDescription": "STL Seasonal 1 (every 14 days where possible, or max possible where inbetween maneuvers)"
+        },
+        {
+            "Name": "seasonal_2",
+            "LongDescription": "STL Seasonal 2 (every 14 days where possible, or max possible where inbetween maneuvers)"
+        },
+        {
+            "Name": "seasonal_3",
+            "LongDescription": "STL Seasonal 3 (every 14 days where possible, or max possible where inbetween maneuvers)"
+        },
+        {
+            "Name": "seasonal_4",
+            "LongDescription": "STL Seasonal 4 (every 14 days where possible, or max possible where inbetween maneuvers)"
+        },
+        {
+            "Name": "mean_altitude",
+            "LongDescription": "Mean altitude (STL trend reduced by the radius of the Earth)"
+        }
+    ],
+    "DECAY RATES": [
+        {
+            "Name": "orbital_decay",
+            "LongDescription": "Orbital decay rate in m/day"
+        },
+        {
+            "Name": "slope",
+            "LongDescription": "Slope of the 24h linear regression (equivalent to orbital decay rate)"
+        },
+        {
+            "Name": "intercept",
+            "LongDescription": "Intercept of the 24h linear regression"
+        },
+        {
+            "Name": "res",
+            "LongDescription": "Residual of the 24h linear regression"
+        },
+        {
+            "Name": "res_std",
+            "LongDescription": "Standard deviation of the residuals of the 24h linear regression"
+        },
+        {
+            "Name": "se_orbital_decay",
+            "LongDescription": "Standard error of the orbital decay rate"
+        }
+    ],
+    "GENERAL": [
+        {
+            "Name": "time",
+            "LongDescription": "Time"
+        },
+        {
+            "Name": "DoY",
+            "LongDescription": "Day of year (YY-DDD)"
+        }
+    ],
+    "MANEUVER FLAGS": [
+        {
+            "Name": "is_maneuver_day",
+            "LongDescription": "Is maneuver day"
+        },
+        {
+            "Name": "is_missing_day",
+            "LongDescription": "Is missing day in bernese ele files"
+        },
+        {
+            "Name": "is_outlier_maneuver_day",
+            "LongDescription": "Maneuver inducing more than 5km orbital decay"
+        },
+        {
+            "Name": "is_maneuver_day_extended",
+            "LongDescription": "Is maneuver day extended (+-12h around maneuver days)"
+        },
+        {
+            "Name": "is_missing_day_extended",
+            "LongDescription": "Is missing day extended (+-12h around missing days)"
+        },
+        {
+            "Name": "is_maneuver_period_generic",
+            "LongDescription": "is_maneuver_day_extended OR is_missing_day_extended"
+        }
+    ],
+    "OTHER NOTES": [
+        {
+            "Name": "columns with _c",
+            "LongDescription": "columns with _c are the columns that have been corrected for maneuver times (i.e. set to nan during is_maneuver_period_generic)"
+        }
+    ]
+}

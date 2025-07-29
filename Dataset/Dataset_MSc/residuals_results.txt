@@ -1,0 +1,23 @@
+All the residuals occur at the same 7 times
+
+,Time_GFOC
+326879,2023-04-25 23:59:30
+349919,2023-05-03 23:59:30
+364319,2023-05-08 23:59:30
+370079,2023-05-10 23:59:30
+387359,2023-05-16 23:59:30
+407519,2023-05-23 23:59:30
+413279,2023-05-25 23:59:30
+
+There are some features that occur not on all times (for example: only 3 for # fine scale Plasma points) but for most there are 7 residuals
+
+If we look at manuever features we see that these residuals correlate with the start of a missing day. However, there is a one datapoint or 30 seconds offset.
+
+,Time_GFOC
+326880,2023-04-26 00:00:00
+349920,2023-05-04 00:00:00
+364320,2023-05-09 00:00:00
+370080,2023-05-11 00:00:00
+387360,2023-05-17 00:00:00
+407520,2023-05-24 00:00:00
+413280,2023-05-26 00:00:00

@@ -1,0 +1,11 @@
+# Ignore specified folders
+Admin/
+Levin/
+Literature/
+Meetings/
+ML/
+Overleaf/
+weeklyreports/
+
+# Ignore specific file
+Workdays.ods

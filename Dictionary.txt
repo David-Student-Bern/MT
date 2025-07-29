@@ -1,0 +1,58 @@
+Often used Abbreviations
+
+AR	active regions
+CIR	co-rotating interaction regions
+CMEs	coronal mass ejections
+Dst	disturbance storm time
+EUV	extreme ultraviolet
+FR	flux rope
+GCR	galactic cosmic rays
+GIC	geomagnetically induced currents
+GLE	ground-level enhancement (events)
+GS	geomagnetic storm
+HSS	high-speed streams
+ICME	interplanetary coronal mass ejections
+IMF	interplanetary magnetic field
+IP(S)	interplanetary (space)
+L1	first Lagrange Point
+MC	magnetic cloud
+MHD	magnetohydrodynamic
+MLAT	magnetic latitude
+NAD	neutral atmospheric density
+OD	orbit decay
+PEA	post-eruption arcade
+pfu	particle flux units
+SC	solar cycle
+SEP	solar energetic particles: Protons
+SEE	solar energetic particles: Electrons
+SF	solar flare
+SIR	streaming interaction regions
+SSN	sunspot number
+SW	space weather
+TAD	traveling atmospheric disturbance
+VLF	very low frequency
+
+
+Explanation of different Terms
+
+---
+CIR	co-rotating interaction regions
+---
+fast-speed solar wind streams
+When a SIR is observed for more than one solar rotation, it is called a CIR
+
+---
+GCR	galactic cosmic rays
+---
+high-energy particles accelerated at shock fronts of distant supernova explosions
+
+---
+GLE	ground-level enhancement (events)
+---
+The SEP events detected at Earth’s surface are called ground-level enhancement (GLE) events.
+
+---
+GIC	geomagnetically induced currents
+---
+intense, low-frequency currents induced in large conductive systems like power lines and pipelines$
+
