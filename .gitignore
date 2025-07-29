@@ -10,3 +10,4 @@ weeklyreports/
 # Ignore specific file
 Workdays.ods
 github.txt
+Dataset/Dataset_MSc/*.csv
