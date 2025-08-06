@@ -23,16 +23,16 @@ Dataset MSc
 ------------------------------------------------------------------------------------------
 # Content
 These two dataset contain data from other catalogs (same in both datasets):
-    - OMNI - magnetic field and plasma data sets shifted to the Earth's bow shock nose 
-    - LASP
+    - OMNI - solar wind magnetic field and plasma data shifted to the Earth's bow shock nose (BSN)
+    - LASP - CLS Solar Radio Flux 
 
-and information unique to either GRACE-FO-C (GFOC) or SWARM-A (SWMA):
-    - BERNESE
-    - SPACETRACK
-    - STL
-    - DECAY RATES
-    - GENERAL
-    - MANEUVER FLAGS
+and information unique to either GRACE-FO 1 (GFOC) or SWARM-A (SWMA):
+    - BERNESE - Satelite position, velocity and atmospheric density
+    - SPACETRACK - Semimajor axis from TLE data
+    - STL - "Seasonal and Trend decomposition using Loess"
+    - DECAY RATES - orbital decay rate in m/day & slope, intercept, residual, standard error and deviation
+    - GENERAL - time and Day of Year
+    - MANEUVER FLAGS – flags for maneuver and missing days
     - OTHER NOTES
 
 for more detailed information about these categories see Dataset/Dataset_MSc/data_doc_all.json.
