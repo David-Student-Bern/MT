@@ -13,4 +13,3 @@ dependencies:
   - seaborn
   - lxml
   - plotly
-prefix: /home/dschwarz/anaconda3/envs/mt_env
