@@ -1,0 +1,72 @@
+
+# How to update and sync your conda environment across devices
+
+1. **Add new packages to the environment.yml**
+
+- Open the `environment.yml` file in your repo.
+- Under the `dependencies:` section, add the new package(s). For example:
+
+  ```yaml
+  dependencies:
+    - ipykernel
+    - ipython
+    - jupyter
+    - python=3.11
+    - pandas
+    - matplotlib
+    - seaborn
+    - lxml
+    - plotly
+    - new-package-name  # Add new packages here
+  ```
+
+- Save and commit the updated `environment.yml` to your GitHub repository:
+
+  ```bash
+  git add environment.yml
+  git commit -m "Add new-package-name to environment"
+  git push origin main
+  ```
+
+---
+
+2. **Update the environment on the device where you installed new packages**
+
+- If you installed packages manually in the environment, make sure to update the `environment.yml` as above.
+- Or if you updated `environment.yml` directly, run:
+
+  ```bash
+  conda env update -f environment.yml --prune
+  ```
+
+- The `--prune` option removes packages no longer listed.
+
+---
+
+3. **Sync the environment on other devices**
+
+- On your other devices, pull the latest changes from GitHub:
+
+  ```bash
+  git pull origin main
+  ```
+
+- Then update the local conda environment:
+
+  ```bash
+  conda env update -f environment.yml --prune
+  ```
+
+- Activate the environment if needed:
+
+  ```bash
+  conda activate mt_env
+  ```
+
+---
+
+4. **General notes**
+
+- Always keep your `environment.yml` up to date in the repo.
+- Avoid manually installing packages only with `conda install` or `pip install` without updating the YAML.
+- If you need to add pip-only packages, add them under a `- pip:` subsection in `dependencies`.
