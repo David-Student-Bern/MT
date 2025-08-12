@@ -14,3 +14,4 @@ Dataset/Dataset_MSc/Residuals
 Workdays.ods
 github.txt
 Dataset/Dataset_MSc/*.csv
+Analysis/Trend_Removal/lowess_tutorial.ipynb
