@@ -13,3 +13,4 @@ dependencies:
   - seaborn
   - lxml
   - plotly
+  - statsmodels
