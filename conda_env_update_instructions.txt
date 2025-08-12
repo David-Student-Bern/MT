@@ -1,4 +1,4 @@
-
+# This document was generated with ChatGPT
 # How to update and sync your conda environment across devices
 
 1. **Add new packages to the environment.yml**

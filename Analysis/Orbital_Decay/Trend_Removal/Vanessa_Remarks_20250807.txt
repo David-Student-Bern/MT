@@ -1,0 +1,22 @@
+I leave you with the suggested tasks that we discussed:
+- fix GitHub repository problems.
+- work on trend removal from the decays (end goal is to be able to assess when the orbit is disturbed and categorize this e.g. low, medium, strong effects).
+- look at the period spectrum of decay rates and assess if and how the solar rotation period could be cleaned from the data; additionally assess if the remaining higher frequency variations are significant (those at ~5 days).
+- look at old group meeting reports and add relevant figures to the paper (just drop them in with a caption). 
+- review the work already done on assessing subset lengths relevant for computing statistics - review outcomes and document briefly both positive and/or negative findings.
+- regarding the data, let’s make the file transfer of the adjusted datasets in person next week. 
+
+Regarding the lowess smoother I mentioned for trend finding: A regular linear fit would be heavily impacted by outliers since it would
+    i. account equally for nearby and far-away points
+    ii. account equally for points that yield high residuals (e.g. the 3-sigma deviated decays during the strong event). 
+
+With lowess, which is basically just weighted linear regression in local intervals, these are both alleviated. There is one main parameter called frac
+(fraction of the data used in the fit). For frac=1, all the data is used for the estimation. Frac * len(data) closest points to the current point (xi, yi)
+to estimate are considered, and their contribution to the fit is weighted by their distance to xi. In addition, lowess accounts for a secondary weighting, 
+namely by multipling the distance weights by the bisquare function of the corresponding residual at xi. As a result, points with high residuals = outliers 
+end up having very low weights. This is one way I could think of finding the trend, but I’m very open to hearing your ideas if you may have others.
+
+Please find the link to the function/library I used below, and a comparison of outputs from a linear vs a lowess fit.
+
+https://www.statsmodels.org/dev/generated/statsmodels.nonparametric.smoothers_lowess.lowess.html
+
