@@ -10,12 +10,15 @@ Dataset/Dataset_MSc/Features
 Dataset/Dataset_MSc/Manuevers
 Dataset/Dataset_MSc/Residuals
 
-# Ignore specific file
+# Ignore specific files
 Workdays.ods
 github.txt
 Dataset/Dataset_MSc/*.csv
 Analysis/Orbital_Decay/Trend_Removal/lowess_tutorial.ipynb
 Analysis/Orbital_Decay/Trend_Removal/test.ipynb
 Analysis/Orbital_Decay/Trend_Removal/lowess_a.ipynb
-Analysis/Orbital_Decay/Trend_Removal/*.csv
+Analysis/**/*.csv
+Analysis/**/**/*.csv
 Analysis/Orbital_Decay/Trend_Removal/STL_tutorial.ipynb
+Analysis/Orbital_Decay/generated/test.ipynb
+Analysis/Orbital_Decay/Trend_Removal/STL.odg
