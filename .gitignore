@@ -22,3 +22,5 @@ Analysis/**/**/*.csv
 Analysis/Orbital_Decay/Trend_Removal/STL_tutorial.ipynb
 Analysis/Orbital_Decay/generated/test.ipynb
 Analysis/Orbital_Decay/Trend_Removal/STL.odg
+Analysis/Orbital_Decay/Trend_Removal/NYTrafficData.feather
+Analysis/Orbital_Decay/Trend_Removal/STLblogPost.Rmd
