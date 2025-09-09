@@ -379,3 +379,94 @@ plot(data_groups$`2023-05-01_to_2023-10-01`$time, diff, type = "l", col = "blue"
 abline(h = 0, col = "red", lty = 2, lwd = 2)  # reference line at 0
 ```
 
+## create csv
+
+```{r}
+# Add the vectors as new columns to the dataframe
+data_groups$`2023-05-01_to_2023-10-01`$recreated  <- recreated
+data_groups$`2023-05-01_to_2023-10-01`$difference <- diff
+
+# Save the updated dataframe as CSV
+write.csv(
+  data_groups$`2023-05-01_to_2023-10-01`,
+  file = "STLplus_2023-05-01_to_2023-10-01.csv",
+  row.names = FALSE
+)
+```
+
+
+# Lomb-Scargle
+
+```{r}
+library(lubridate)
+
+df <- data_groups$`2023-05-01_to_2023-10-01`
+
+# Ensure time is POSIXct
+df$time <- as.POSIXct(df$time, format="%Y-%m-%d %H:%M:%S")
+
+# Sampling interval in days
+dt <- as.numeric(difftime(df$time[2], df$time[1], units = "days"))
+
+# --- Periodogram for 'decay' ---
+spec_decay <- spectrum(df$orbital_decay, plot = FALSE)
+periods_decay <- 1 / (spec_decay$freq / dt)
+
+plot(periods_decay, spec_decay$spec, type = "l",
+     col = "grey", lwd = 2,
+     log = "x",
+     xlab = "Period (days)", ylab = "Spectral Density",
+     main = "Periodogram - Original",
+     xlim = c(1e-2, 10)
+)
+
+# --- Periodogram for 'STL' ---
+spec_STL <- spectrum(res_D$data$seasonal + res_D$data$trend, plot = FALSE)
+periods_STL <- 1 / (spec_STL$freq / dt)
+
+plot(periods_STL, spec_STL$spec, type = "l",
+     col = "cyan", lwd = 2,
+     log = "x",
+     xlab = "Period (days)", ylab = "Spectral Density",
+     main = "Periodogram - STL",
+     xlim = c(1e-2, 10)
+)
+
+# --- Periodogram for 'recreated' ---
+spec_recreated <- spectrum(df$recreated, plot = FALSE)
+periods_recreated <- 1 / (spec_recreated$freq / dt)
+
+plot(periods_recreated, spec_recreated$spec, type = "l",
+     col = "blue", lwd = 2,
+     log = "x",
+     xlab = "Period (days)", ylab = "Spectral Density",
+     main = "Periodogram - Recreated",
+     xlim = c(1e-2, 10)
+)
+
+# --- Periodogram for 'diff' ---
+spec_diff <- spectrum(df$difference, plot = FALSE)
+periods_diff <- 1 / (spec_diff$freq / dt)
+
+plot(periods_diff, spec_diff$spec, type = "l",
+     col = "red", lwd = 2,
+     log = "x",
+     xlab = "Period (days)", ylab = "Spectral Density",
+     main = "Periodogram - Difference",
+     xlim = c(1e-2, 10)
+)
+
+# --- Periodogram for 'Decay - STL' ---
+spec_DSTL <- spectrum(df$orbital_decay - (res_D$data$seasonal + res_D$data$trend), plot = FALSE)
+periods_DSTL <- 1 / (spec_DSTL$freq / dt)
+
+plot(periods_DSTL, spec_DSTL$spec, type = "l",
+     col = "orange", lwd = 2,
+     log = "x",
+     xlab = "Period (days)", ylab = "Spectral Density",
+     main = "Periodogram - (Decay - STL)",
+     xlim = c(1e-2, 10)
+)
+
+```
+
