@@ -139,26 +139,33 @@ sapply(data_groups, nrow)
 library(stlplus)
 
 stl_decompose <- function(period_days, x, time) {
+  # Benchmark start
+  start_time <- Sys.time()
+  
   # Convert days to half minutes (data sample rate)
   period <- period_days * 24 * 120
-  cat("using a period of", period_days, "days\n")
   
   # Make sure seasonal period is odd
   seasonal <- ifelse(period %% 2 == 0, period + 1, period)
   
   # Jumps / windows
-  low_pass_jump <- floor(0.15 * (period + 1))
-  seasonal_jump <- low_pass_jump
-  trend_jump <- floor(0.15 * 1.5 * (period + 1))
+  low_pass_window <- max(101, round(period))          # ~period length
+  trend_window    <- max(301, round(1.5 * period))    # longer, smooth trend
   
-  # STL decomposition
+  s_jump <- floor(0.15 * (period + 1))
+  l_jump <- s_jump
+  t_jump <- floor(0.15 * 1.5 * (period + 1))
+  
   stl_result <- stlplus(
     x = x,
     t = time,
     n.p = period,
-    s.window = seasonal,
-    l.window = low_pass_jump,
-    t.window = trend_jump
+    s.window = seasonal,      # keeps seasonal period
+    l.window = low_pass_window,
+    t.window = trend_window,
+    s.jump   = s_jump,
+    l.jump   = l_jump,
+    t.jump   = t_jump
   )
   
   # Plot result
@@ -170,57 +177,186 @@ stl_decompose <- function(period_days, x, time) {
     )
   )
   
+  
+  # Benchmark end
+  end_time <- Sys.time()
+  cat("Runtime:", round(difftime(end_time, start_time, units = "secs"), 2), "seconds\n")
+  # statistics
+  cat("Using a period of", period_days, "days →", period, "points\n")
+  cat("Datapoints: ", length(x), "\n")
+  
+  # Extract components
+  comp <- data.frame(
+    seasonal = stl_result$data$seasonal,
+    trend    = stl_result$data$trend,
+    remainder= stl_result$data$remainder
+  )
+  
+  # Compute statistics
+  stats <- data.frame(
+    component = c("seasonal", "trend", "remainder"),
+    mean      = c(mean(comp$seasonal), mean(comp$trend), mean(comp$remainder)),
+    sd        = c(sd(comp$seasonal),   sd(comp$trend),   sd(comp$remainder)),
+    min       = c(min(comp$seasonal),  min(comp$trend),  min(comp$remainder)),
+    max       = c(max(comp$seasonal),  max(comp$trend),  max(comp$remainder))
+  )
+  
+  print(stats)
+  
   invisible(stl_result)
 }
 ```
 
-## STL Decay without Events
+## STL Decay of 2. subgroup
 
 ```{r}
 res_D <- stl_decompose(
-  period_days = 25,
-  x = data$orbital_decay,
-  time = data$time
+  period_days = 4.82,
+  x = data_groups$`2023-05-01_to_2023-10-01`$orbital_decay,
+  
+  time = data_groups$`2023-05-01_to_2023-10-01`$time
+)
+```
+```{r}
+# Recreated (trend + seasonal)
+recreated <- res_D$data$seasonal + res_D$data$trend
+
+orig <- data_groups$`2023-05-01_to_2023-10-01`$orbital_decay
+
+# Compare visually
+plot(data_groups$`2023-05-01_to_2023-10-01`$time, orig, type = "l", col = "black", lwd = 2,
+     main = "Original vs Recreated Decay.without.Events",
+     xlab = "time", ylab = "Value")
+lines(data_groups$`2023-05-01_to_2023-10-01`$time, recreated, col = "red", lwd = 2)
+legend("topleft", legend = c("Original", "Recreated (STL)"),
+       col = c("black", "red"), lty = 1, lwd = 2)
+
+# Compare numerically (ignoring NAs)
+mean_diff <- mean(abs(orig - recreated), na.rm = TRUE)
+cat("Mean absolute difference:", mean_diff, "\n")
+```
+
+-----------------------------------
+
+## Test
+
+```{r}
+comp <- data.frame(
+  seasonal = res_D$data$seasonal,
+  trend    = res_D$data$trend,
+  remainder= res_D$data$remainder
+)
+  
+# Compute statistics
+stats <- data.frame(
+  component = c("seasonal", "trend", "remainder"),
+  mean      = c(mean(comp$seasonal), mean(comp$trend), mean(comp$remainder)),
+  sd        = c(sd(comp$seasonal),   sd(comp$trend),   sd(comp$remainder)),
+  min       = c(min(comp$seasonal),  min(comp$trend),  min(comp$remainder)),
+  max       = c(max(comp$seasonal),  max(comp$trend),  max(comp$remainder))
+)
+
+print(stats)
+```
+
+
+# STL Decay with Gaps where Events are
+
+## Import filtered data
+
+```{r}
+# Path to the CSV file
+filtered_path <- path(repo_root, "Dataset", "Dataset_MSc", "filtered_GFOC_data.csv")
+# Try to load with limited columns first
+fdata <- tryCatch(
+  {
+    # Use readr::read_csv for efficiency (similar to pandas)
+    dat <- read_csv(filtered_path, col_select = all_of(columns_needed))
+    message(sprintf("Successfully loaded data with shape: %d rows, %d cols",
+                    nrow(dat), ncol(dat)))
+    dat
+  },
+  error = function(e) {
+    if (grepl("cannot allocate memory", e$message)) {
+      message("Still running out of memory. Loading in chunks...")
+      
+      # Chunked read
+      chunk_list <- list()
+      chunksize <- 50000
+      
+      read_csv_chunked(
+        GFOC_path,
+        callback = DataFrameCallback$new(function(x, pos) {
+          chunk_list[[length(chunk_list) + 1]] <<- x
+        }),
+        col_select = all_of(columns_needed),
+        chunk_size = chunksize
+      )
+      
+      dat <- do.call(rbind, chunk_list)
+      message(sprintf("Successfully loaded data in chunks with shape: %d rows, %d cols",
+                      nrow(dat), ncol(dat)))
+      dat
+    } else {
+      stop(e)
+    }
+  }
 )
 ```
 
-## STL Decay with Events
-
+## Reformat
 ```{r}
-res_DwE <- stl_decompose(
-  period_days = 180,
-  x = data$Decay.with.Events,
-  time = data$time
-)
+# remove the last 54322 rows to not include the gap in the data
+n <- nrow(fdata)
+fdata <- fdata[1:(n - 54322), ]
+
+# Convert time to POSIXct (datetime - should already be correct but just to be sure)
+fdata$time <- as.POSIXct(data$time, format="%Y-%m-%d %H:%M:%S")
 ```
 
-
-## STL Decay with Gaps where Events are
+## split dataset into subgroups
 
 ```{r}
-res_Df <- stl_decompose(
-  period_days = 6,
-  x = data$Decay.filtered,
-  time = data$time
+# Assign groups
+fdata$group <- cut(
+  fdata$time, 
+  breaks = breaks, 
+  include.lowest = TRUE, 
+  right = FALSE, # ensures [start, end)
+  labels = labels
+)
+
+# Split dataset by group
+fdata_groups <- split(fdata, fdata$group)
+
+# Preview sizes
+sapply(fdata_groups, nrow)
+
+```
+## STL
+
+```{r}
+res_fD <- stl_decompose(
+  period_days = 4.82,
+  x = fdata_groups$`2023-05-01_to_2023-10-01`$orbital_decay,
+  
+  time = fdata_groups$`2023-05-01_to_2023-10-01`$time
 )
 ```
 
 ## Recreate Decay without Events
 
 ```{r}
-
-data$Decay.recreated <- res_Df$data$seasonal + res_Df$data$trend
-
-orig <- data$Decay.without.Events
-
 # Recreated (trend + seasonal)
-recreated <- data$Decay.recreated
+recreated <- res_fD$data$seasonal + res_fD$data$trend
+
+orig <- data_groups$`2023-05-01_to_2023-10-01`$orbital_decay
 
 # Compare visually
-plot(data$time, orig, type = "l", col = "black", lwd = 2,
+plot(data_groups$`2023-05-01_to_2023-10-01`$time, orig, type = "l", col = "black", lwd = 2,
      main = "Original vs Recreated Decay.without.Events",
      xlab = "time", ylab = "Value")
-lines(data$time, recreated, col = "red", lwd = 2)
+lines(data_groups$`2023-05-01_to_2023-10-01`$time, recreated, col = "red", lwd = 2)
 legend("topleft", legend = c("Original", "Recreated (STL)"),
        col = c("black", "red"), lty = 1, lwd = 2)
 
@@ -236,39 +372,10 @@ cat("Mean absolute difference:", mean_diff, "\n")
 diff <- orig - recreated
 
 # Plot the difference over time
-plot(data$time, diff, type = "l", col = "blue", lwd = 2,
+plot(data_groups$`2023-05-01_to_2023-10-01`$time, diff, type = "l", col = "blue", lwd = 2,
      main = "Difference: Original - Recreated",
      xlab = "time", ylab = "Difference")
 
 abline(h = 0, col = "red", lty = 2, lwd = 2)  # reference line at 0
 ```
 
-
-## Plot showing only the events
-
-```{r}
-# Difference (residuals)
-Events <- data$Decay.with.Events - data$Decay.without.Events
-rEvents <- data$Decay.with.Events - recreated
-
-# Compare visually
-plot(data$time, Events, type = "l", col = "black", lwd = 2,
-     main = "Original vs Recreated Events",
-     xlab = "time", ylab = "Value")
-lines(data$time, rEvents, col = "red", lwd = 2)
-legend("topleft", legend = c("Original", "Recreated (STL)"),
-       col = c("black", "red"), lty = 1, lwd = 2)
-
-
-abline(h = 0, col = "blue", lty = 2, lwd = 2)  # reference line at 0
-```
-
-# Comments
-
-In most regards the `R` code works almost the same as the `Python` code. The only difference I noticed is in the way `stlplus` handles the 'Decay with Events'. In `R` the _Seasonal_ not only captures the two periods but also most of the events, where in `Python` there was much more of the events present in the _Residual_. In that way I would argue, that the `Python` version is slighlty better than the `R` version.
-
-Regarding the mayor reason I tried `stlplus` in the first place: _" The `stlplus` package implements the same algorithm as the `stl` function in base R while allowing for missing data."_\
-I used this ability to reproduce the 'Decay without Events' from the 'Decay with Events' by removing all the points where the difference between the two was bigger than 0.1. For real data I would need another method to decide, where the gaps should be. The tricky part of this way of creating a dataset that only contains the events is that I need to know when events are and when not. In theory I could use the flags I have, but then I am restricting myself to the events I know.
-
-## Next steps
-- try this pipeline with real data
