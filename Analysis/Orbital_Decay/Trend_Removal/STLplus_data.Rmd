@@ -2,7 +2,9 @@
 title: "STL_plus"
 author: "David Schwarz"
 date: "`r Sys.Date()`"
-output: html_document
+output: 
+  pdf_document: default
+  html_notebook: default
 ---
 
 ```{r setup, include=FALSE}
@@ -470,3 +472,19 @@ plot(periods_DSTL, spec_DSTL$spec, type = "l",
 
 ```
 
+# Difference between STL with Gaps and STL with original data
+
+```{r}
+# Recreated curve
+full <- res_D$data$seasonal + res_D$data$trend
+gaps <- res_fD$data$seasonal + res_fD$data$trend
+
+df <- full - gaps
+
+# Plot the difference over time
+plot(data_groups$`2023-05-01_to_2023-10-01`$time, df, type = "l", col = "blue", lwd = 2,
+     main = "Difference: Original - Recreated",
+     xlab = "time", ylab = "Difference")
+
+abline(h = 0, col = "red", lty = 2, lwd = 2)  # reference line at 0
+```
