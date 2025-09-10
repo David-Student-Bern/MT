@@ -227,15 +227,27 @@ orig <- data_groups$`2023-05-01_to_2023-10-01`$orbital_decay
 
 # Compare visually
 plot(data_groups$`2023-05-01_to_2023-10-01`$time, orig, type = "l", col = "black", lwd = 2,
-     main = "Original vs Recreated Decay.without.Events",
+     main = "Original vs Recreated Decay (with Events)",
      xlab = "time", ylab = "Value")
-lines(data_groups$`2023-05-01_to_2023-10-01`$time, recreated, col = "red", lwd = 2)
+lines(data_groups$`2023-05-01_to_2023-10-01`$time, recreated, col = adjustcolor("red", alpha.f = 0.6), lwd = 2)
 legend("topleft", legend = c("Original", "Recreated (STL)"),
        col = c("black", "red"), lty = 1, lwd = 2)
 
 # Compare numerically (ignoring NAs)
 mean_diff <- mean(abs(orig - recreated), na.rm = TRUE)
 cat("Mean absolute difference:", mean_diff, "\n")
+```
+
+```{r}
+# Difference (residuals)
+diff <- orig - recreated
+
+# Plot the difference over time
+plot(data_groups$`2023-05-01_to_2023-10-01`$time, diff, type = "l", col = "blue", lwd = 2,
+     main = "Difference: Original - Recreated (wE)",
+     xlab = "time", ylab = "Difference")
+
+abline(h = 0, col = "red", lty = 2, lwd = 2)  # reference line at 0
 ```
 
 -----------------------------------
@@ -356,11 +368,11 @@ orig <- data_groups$`2023-05-01_to_2023-10-01`$orbital_decay
 
 # Compare visually
 plot(data_groups$`2023-05-01_to_2023-10-01`$time, orig, type = "l", col = "black", lwd = 2,
-     main = "Original vs Recreated Decay.without.Events",
+     main = "Original vs Recreated Decay (filtered)",
      xlab = "time", ylab = "Value")
-lines(data_groups$`2023-05-01_to_2023-10-01`$time, recreated, col = "red", lwd = 2)
+lines(data_groups$`2023-05-01_to_2023-10-01`$time, recreated, col = adjustcolor("orange", alpha.f = 0.6), lwd = 2)
 legend("topleft", legend = c("Original", "Recreated (STL)"),
-       col = c("black", "red"), lty = 1, lwd = 2)
+       col = c("black", "orange"), lty = 1, lwd = 2)
 
 # Compare numerically (ignoring NAs)
 mean_diff <- mean(abs(orig - recreated), na.rm = TRUE)
@@ -374,8 +386,8 @@ cat("Mean absolute difference:", mean_diff, "\n")
 diff <- orig - recreated
 
 # Plot the difference over time
-plot(data_groups$`2023-05-01_to_2023-10-01`$time, diff, type = "l", col = "blue", lwd = 2,
-     main = "Difference: Original - Recreated",
+plot(data_groups$`2023-05-01_to_2023-10-01`$time, diff, type = "l", col = "darkgreen", lwd = 2,
+     main = "Difference: Original - Recreated (f)",
      xlab = "time", ylab = "Difference")
 
 abline(h = 0, col = "red", lty = 2, lwd = 2)  # reference line at 0
@@ -415,58 +427,58 @@ spec_decay <- spectrum(df$orbital_decay, plot = FALSE)
 periods_decay <- 1 / (spec_decay$freq / dt)
 
 plot(periods_decay, spec_decay$spec, type = "l",
-     col = "grey", lwd = 2,
+     col = "black", lwd = 2,
      log = "x",
      xlab = "Period (days)", ylab = "Spectral Density",
      main = "Periodogram - Original",
      xlim = c(1e-2, 10)
 )
 
-# --- Periodogram for 'STL' ---
+# --- Periodogram for 'RwE' ---
 spec_STL <- spectrum(res_D$data$seasonal + res_D$data$trend, plot = FALSE)
 periods_STL <- 1 / (spec_STL$freq / dt)
 
 plot(periods_STL, spec_STL$spec, type = "l",
-     col = "cyan", lwd = 2,
-     log = "x",
-     xlab = "Period (days)", ylab = "Spectral Density",
-     main = "Periodogram - STL",
-     xlim = c(1e-2, 10)
-)
-
-# --- Periodogram for 'recreated' ---
-spec_recreated <- spectrum(df$recreated, plot = FALSE)
-periods_recreated <- 1 / (spec_recreated$freq / dt)
-
-plot(periods_recreated, spec_recreated$spec, type = "l",
-     col = "blue", lwd = 2,
-     log = "x",
-     xlab = "Period (days)", ylab = "Spectral Density",
-     main = "Periodogram - Recreated",
-     xlim = c(1e-2, 10)
-)
-
-# --- Periodogram for 'diff' ---
-spec_diff <- spectrum(df$difference, plot = FALSE)
-periods_diff <- 1 / (spec_diff$freq / dt)
-
-plot(periods_diff, spec_diff$spec, type = "l",
      col = "red", lwd = 2,
      log = "x",
      xlab = "Period (days)", ylab = "Spectral Density",
-     main = "Periodogram - Difference",
+     main = "Periodogram - Recreated wE",
      xlim = c(1e-2, 10)
 )
 
-# --- Periodogram for 'Decay - STL' ---
+# --- Periodogram for 'Decay - RwE' ---
 spec_DSTL <- spectrum(df$orbital_decay - (res_D$data$seasonal + res_D$data$trend), plot = FALSE)
 periods_DSTL <- 1 / (spec_DSTL$freq / dt)
 
 plot(periods_DSTL, spec_DSTL$spec, type = "l",
+     col = "blue", lwd = 2,
+     log = "x",
+     xlab = "Period (days)", ylab = "Spectral Density",
+     main = "Periodogram - (Decay - Recreated wE)",
+     xlim = c(1e-2, 10)
+)
+
+# --- Periodogram for 'recreated f' ---
+spec_recreated <- spectrum(df$recreated, plot = FALSE)
+periods_recreated <- 1 / (spec_recreated$freq / dt)
+
+plot(periods_recreated, spec_recreated$spec, type = "l",
      col = "orange", lwd = 2,
      log = "x",
      xlab = "Period (days)", ylab = "Spectral Density",
-     main = "Periodogram - (Decay - STL)",
+     main = "Periodogram - Recreated f",
+     xlim = c(1e-2, 10)
+)
+
+# --- Periodogram for 'Decay - Rf' ---
+spec_diff <- spectrum(df$difference, plot = FALSE)
+periods_diff <- 1 / (spec_diff$freq / dt)
+
+plot(periods_diff, spec_diff$spec, type = "l",
+     col = "darkgreen", lwd = 2,
+     log = "x",
+     xlab = "Period (days)", ylab = "Spectral Density",
+     main = "Periodogram - (Decay - Recreated f)",
      xlim = c(1e-2, 10)
 )
 
@@ -482,8 +494,8 @@ gaps <- res_fD$data$seasonal + res_fD$data$trend
 df <- full - gaps
 
 # Plot the difference over time
-plot(data_groups$`2023-05-01_to_2023-10-01`$time, df, type = "l", col = "blue", lwd = 2,
-     main = "Difference: Original - Recreated",
+plot(data_groups$`2023-05-01_to_2023-10-01`$time, df, type = "l", col = "blueviolet", lwd = 2,
+     main = "Difference: with Events - filtered",
      xlab = "time", ylab = "Difference")
 
 abline(h = 0, col = "red", lty = 2, lwd = 2)  # reference line at 0
