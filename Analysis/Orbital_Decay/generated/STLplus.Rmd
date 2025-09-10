@@ -150,12 +150,24 @@ rEvents <- data$Decay.with.Events - recreated
 plot(data$Time, Events, type = "l", col = "black", lwd = 2,
      main = "Original vs Recreated Events",
      xlab = "Time", ylab = "Value")
-lines(data$Time, rEvents, col = "red", lwd = 2)
+lines(data$Time, rEvents, col = adjustcolor("red", alpha.f = 0.5), lwd = 2)
 legend("topleft", legend = c("Original", "Recreated (STL)"),
        col = c("black", "red"), lty = 1, lwd = 2)
 
 
 abline(h = 0, col = "blue", lty = 2, lwd = 2)  # reference line at 0
+```
+
+```{r}
+# Difference (residuals)
+diff <- Events - rEvents
+
+# Plot the difference over time
+plot(data$Time, diff, type = "l", col = "blue", lwd = 2,
+     main = "Difference: Original - Recreated",
+     xlab = "Time", ylab = "Difference")
+
+abline(h = 0, col = "red", lty = 2, lwd = 2)  # reference line at 0
 ```
 
 # Comments
