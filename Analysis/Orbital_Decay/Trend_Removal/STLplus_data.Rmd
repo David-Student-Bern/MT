@@ -397,8 +397,8 @@ abline(h = 0, col = "red", lty = 2, lwd = 2)  # reference line at 0
 
 ```{r}
 # Add the vectors as new columns to the dataframe
-data_groups$`2023-05-01_to_2023-10-01`$recreated  <- recreated
-data_groups$`2023-05-01_to_2023-10-01`$difference <- diff
+data_groups$`2023-05-01_to_2023-10-01`$recreated_wE <- res_D$data$seasonal + res_D$data$trend
+data_groups$`2023-05-01_to_2023-10-01`$recreated_f  <- res_fD$data$seasonal + res_fD$data$trend
 
 # Save the updated dataframe as CSV
 write.csv(
