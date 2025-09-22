@@ -6,6 +6,7 @@ Meetings/
 ML/
 Overleaf/
 weeklyreports/
+sandbox/
 Dataset/Dataset_MSc/Features
 Dataset/Dataset_MSc/Manuevers
 Dataset/Dataset_MSc/Residuals
@@ -14,6 +15,7 @@ Dataset/Dataset_MSc/Residuals
 Workdays.ods
 github.txt
 Dataset/Dataset_MSc/*.csv
+Dataset/Dataset_MSc/*.parquet
 Analysis/Orbital_Decay/Trend_Removal/lowess_tutorial.ipynb
 Analysis/Orbital_Decay/Trend_Removal/test.ipynb
 Analysis/Orbital_Decay/Trend_Removal/lowess_a.ipynb
