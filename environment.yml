@@ -16,3 +16,5 @@ dependencies:
   - statsmodels
   - scikit-learn
   - astropy
+  - pyarrow
+  - fastparquet
