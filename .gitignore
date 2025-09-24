@@ -15,6 +15,7 @@ Dataset/Dataset_MSc/Residuals/
 # Ignore specific files
 Workdays.ods
 github.txt
+Dataset/*.csv
 Dataset/Dataset_MSc/*.csv
 Dataset/Dataset_MSc/*.parquet
 Analysis/Orbital_Decay/Trend_Removal/lowess_tutorial.ipynb
