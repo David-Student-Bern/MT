@@ -7,9 +7,10 @@ ML/
 Overleaf/
 weeklyreports/
 sandbox/
-Dataset/Dataset_MSc/Features
-Dataset/Dataset_MSc/Manuevers
-Dataset/Dataset_MSc/Residuals
+Dataset/Dataset_MSc/old/
+Dataset/Dataset_MSc/Features/
+Dataset/Dataset_MSc/Manuevers/
+Dataset/Dataset_MSc/Residuals/
 
 # Ignore specific files
 Workdays.ods
