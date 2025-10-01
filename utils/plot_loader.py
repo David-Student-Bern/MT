@@ -187,3 +187,86 @@ def plot_orbital_decay(
         plt.show()
 
         print(f"Strongest period: {best_period:.2f} days")
+
+def plot_lombscargle_periodogram(
+    Data,
+    start_date=None,
+    end_date=None,
+    min_period=0.1,   # days
+    max_period=60,  # days
+    vlines=True,
+    style='default',
+    figsize=(10, 5),
+    show=True
+):
+    """
+    Plot Lomb-Scargle periodogram of orbital decay.
+    Returns (fig, ax).
+
+    Parameters
+    ----------
+    Data : pd.DataFrame
+        Data (must contain 'time' and 'orbital_decay').
+    start_date, end_date : str or pd.Timestamp
+        Date range to plot. If None, inferred from Data.
+    tick_interval : {'monthly','daily','hourly'}
+    tick_step : int
+    style : str
+        Matplotlib style to use.
+    figsize : tuple
+    show : bool
+        Whether to call plt.show().
+    """
+    plt.style.use(style)
+
+    # infer date range if not provided
+    if start_date is None:
+        start_date = pd.to_datetime(Data['time'].min())
+    if end_date is None:
+        end_date = pd.to_datetime(Data['time'].max())
+
+    # ensure times are datetimes and filter
+    GFOC = Data.copy()
+    GFOC['time'] = pd.to_datetime(GFOC['time'], format='%Y-%m-%d %H:%M:%S', errors='coerce')
+    mask = (GFOC['time'] >= pd.to_datetime(start_date)) & (GFOC['time'] <= pd.to_datetime(end_date))
+    GFOC_subset = GFOC.loc[mask]
+
+    from astropy.timeseries import LombScargle
+
+    # Convert time to numerical values (in days)
+    times = pd.to_datetime(GFOC_subset['time'], format='%Y-%m-%d %H:%M:%S')
+    times_num = (times - times.iloc[0]).dt.total_seconds() / (24 * 3600)  # days since start
+
+    y = GFOC_subset['orbital_decay'].values
+
+    # Define frequency grid (cycles per day)
+    frequency = np.linspace(1/max_period, 1/min_period, 100000)
+
+    # Compute Lomb-Scargle periodogram
+    ls = LombScargle(times_num, y)
+    power = ls.power(frequency)
+
+    # Find the period with the highest power
+    best_frequency = frequency[np.argmax(power)]
+    best_period = 1 / best_frequency
+
+    # Plot the periodogram
+    plt.figure(figsize=(10, 5))
+    plt.plot(1/frequency, power)
+    plt.xlabel('Period (days)')
+    plt.ylabel('Lomb-Scargle Power')
+    start_str = pd.to_datetime(start_date).strftime("%Y-%m-%d")
+    end_str   = pd.to_datetime(end_date).strftime("%Y-%m-%d")
+    plt.title(f'Lomb-Scargle Periodogram of Orbital Decay\n{start_str} to {end_str}')
+    plt.xscale('log')
+    plt.grid(True)
+
+    # Add vertical lines for solar rotation periods
+    if vlines:
+        plt.axvline(26.24, color='orange', linestyle='--', linewidth=2, label='Solar synodic rotation (Equator, 26.24d)')
+        plt.axvline(35, color='purple', linestyle='--', linewidth=2, label='Solar rotation (Near Pole, 35d)')
+
+    plt.legend()
+    plt.show()
+
+    print(f"Strongest period: {best_period:.2f} days")
