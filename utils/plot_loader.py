@@ -1,3 +1,5 @@
+# utils/plot_loader.py
+
 import matplotlib.dates as mdates
 import numpy as np
 import pandas as pd
@@ -15,6 +17,13 @@ def format_ticks(ax, tick_interval, tick_step):
         ax.xaxis.set_major_locator(mdates.HourLocator(interval=tick_step))
         ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d %H:%M'))
     ax.tick_params(axis='x', rotation=0)
+
+def create_subset(Data, start_date, end_date):
+    subset = Data.copy()
+    subset['time'] = pd.to_datetime(subset['time'], format='%Y-%m-%d %H:%M:%S', errors='coerce')
+    mask = (subset['time'] >= pd.to_datetime(start_date)) & (subset['time'] <= pd.to_datetime(end_date))
+    subset = subset.loc[mask]
+    return subset
 
 def plot_orbital_decay(
     Data,
@@ -62,22 +71,16 @@ def plot_orbital_decay(
         end_date = pd.to_datetime(Data['time'].max())
 
     # ensure times are datetimes and filter
-    GFOC = Data.copy()
-    GFOC['time'] = pd.to_datetime(GFOC['time'], format='%Y-%m-%d %H:%M:%S', errors='coerce')
-    mask = (GFOC['time'] >= pd.to_datetime(start_date)) & (GFOC['time'] <= pd.to_datetime(end_date))
-    GFOC_subset = GFOC.loc[mask]
-    GFOC_time = GFOC_subset['time']
+    subset = create_subset(Data, start_date, end_date)
+    times = subset['time']
 
     # old data (optional)
     if Data2 is not None:
-        GFOCold = Data2.copy()
-        GFOCold['time'] = pd.to_datetime(GFOCold['time'], format='%Y-%m-%d %H:%M:%S', errors='coerce')
-        mask_old = (GFOCold['time'] >= pd.to_datetime(start_date)) & (GFOCold['time'] <= pd.to_datetime(end_date))
-        GFOC_subset_old = GFOCold.loc[mask_old]
-        GFOC_old_time = GFOC_subset_old['time']
+        subset_old = create_subset(Data2, start_date, end_date)
+        old_time = subset_old['time']
     else:
-        GFOC_subset_old = pd.DataFrame(columns=GFOC.columns)
-        GFOC_old_time = pd.Series(dtype='datetime64[ns]')
+        subset_old = pd.DataFrame(columns=subset.columns)
+        old_time = pd.Series(dtype='datetime64[ns]')
 
     # Flags handling (only if requested)
     if FLAGS:
@@ -120,11 +123,11 @@ def plot_orbital_decay(
             ax.axvline(tend, color='tab:orange', alpha=0.5, linestyle=':', linewidth=1.0, label='R&C ICME End')
             ax.axvspan(tstart, tend, color='tab:orange', alpha=0.2, hatch='-', label='R&C ICME')
 
-    if not GFOC_subset_old.empty:
-        ax.plot(GFOC_time, GFOC_subset['orbital_decay'], color='tab:blue', alpha=0.7, label='New Data')
-        ax.plot(GFOC_old_time, GFOC_subset_old['orbital_decay'], color='tab:red', alpha=0.3, label='Old Data')
+    if not subset_old.empty:
+        ax.plot(times, subset['orbital_decay'], color='tab:blue', alpha=0.7, label='New Data')
+        ax.plot(old_time, subset_old['orbital_decay'], color='tab:red', alpha=0.3, label='Old Data')
     else:
-        ax.plot(GFOC_time, GFOC_subset['orbital_decay'], color='tab:blue', label='Orbital Decay')
+        ax.plot(times, subset['orbital_decay'], color='tab:blue', label='Orbital Decay')
 
     format_ticks(ax, tick_interval, tick_step)
     ax.set_xlabel('Time')
@@ -152,10 +155,9 @@ def plot_orbital_decay(
         from astropy.timeseries import LombScargle
 
         # Convert time to numerical values (in days)
-        times = pd.to_datetime(GFOC_subset['time'], format='%Y-%m-%d %H:%M:%S')
         times_num = (times - times.iloc[0]).dt.total_seconds() / (24 * 3600)  # days since start
 
-        y = GFOC_subset['orbital_decay'].values
+        y = subset['orbital_decay'].values
 
         # Define frequency grid (cycles per day)
         min_period = 0.1   # days
@@ -226,18 +228,15 @@ def plot_lombscargle_periodogram(
         end_date = pd.to_datetime(Data['time'].max())
 
     # ensure times are datetimes and filter
-    GFOC = Data.copy()
-    GFOC['time'] = pd.to_datetime(GFOC['time'], format='%Y-%m-%d %H:%M:%S', errors='coerce')
-    mask = (GFOC['time'] >= pd.to_datetime(start_date)) & (GFOC['time'] <= pd.to_datetime(end_date))
-    GFOC_subset = GFOC.loc[mask]
+    subset = create_subset(Data, start_date, end_date)
 
     from astropy.timeseries import LombScargle
 
     # Convert time to numerical values (in days)
-    times = pd.to_datetime(GFOC_subset['time'], format='%Y-%m-%d %H:%M:%S')
+    times = pd.to_datetime(subset['time'], format='%Y-%m-%d %H:%M:%S')
     times_num = (times - times.iloc[0]).dt.total_seconds() / (24 * 3600)  # days since start
 
-    y = GFOC_subset['orbital_decay'].values
+    y = subset['orbital_decay'].values
 
     # Define frequency grid (cycles per day)
     frequency = np.linspace(1/max_period, 1/min_period, 100000)
