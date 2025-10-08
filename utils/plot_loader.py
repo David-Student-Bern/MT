@@ -264,8 +264,7 @@ def plot_lombscargle_periodogram(
     if vlines:
         plt.axvline(26.24, color='orange', linestyle='--', linewidth=2, label='Solar synodic rotation (Equator, 26.24d)')
         plt.axvline(35, color='purple', linestyle='--', linewidth=2, label='Solar rotation (Near Pole, 35d)')
-
-    plt.legend()
+        plt.legend()
     plt.show()
 
     print(f"Strongest period: {best_period:.2f} days")

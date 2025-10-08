@@ -4,12 +4,12 @@ import pandas as pd
 import numpy as np
 
 class LagFeatures:
-    def __init__(self, df, lag_minutes=5, max_lag_hours=48, freq="30s", return_lags_only=False):
+    def __init__(self, df, lag_minutes=5, max_lag_hours=48, freq="20s", return_lags_only=False):
         """
         df              : pandas DataFrame with one or more feature columns
         lag_minutes     : spacing between lags (default = 5 minutes)
         max_lag_hours   : maximum history in hours (default = 48 hours)
-        freq            : frequency of the data (default = '30s')
+        freq            : frequency of the data (default = '20s')
         return_lags_only: if True, only lag columns are returned in self.df
         """
         self.df = df.copy()
