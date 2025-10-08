@@ -197,6 +197,7 @@ def plot_lombscargle_periodogram(
     min_period=0.1,   # days
     max_period=60,  # days
     vlines=True,
+    print_period='days',
     style='default',
     figsize=(10, 5),
     show=True
@@ -267,4 +268,9 @@ def plot_lombscargle_periodogram(
         plt.legend()
     plt.show()
 
-    print(f"Strongest period: {best_period:.2f} days")
+    if print_period == 'days':
+        print(f"Strongest period: {best_period:.2f} days")
+    elif print_period == 'hours':
+        print(f"Strongest period: {best_period*24:.2f} hours")
+    elif print_period == 'minutes':
+        print(f"Strongest period: {best_period*24*60:.2f} minutes")
