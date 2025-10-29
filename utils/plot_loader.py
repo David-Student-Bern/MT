@@ -18,11 +18,13 @@ def format_ticks(ax, tick_interval, tick_step):
         ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d %H:%M'))
     ax.tick_params(axis='x', rotation=0)
 
-def create_subset(Data, start_date, end_date):
+def create_subset(Data, start_date, end_date, resample_rate=None):
     subset = Data.copy()
     subset['time'] = pd.to_datetime(subset['time'], format='%Y-%m-%d %H:%M:%S', errors='coerce')
     mask = (subset['time'] >= pd.to_datetime(start_date)) & (subset['time'] <= pd.to_datetime(end_date))
     subset = subset.loc[mask]
+    if resample_rate:
+        subset = subset.resample(resample_rate, on='time').mean()
     return subset
 
 def plot_orbital_decay(
