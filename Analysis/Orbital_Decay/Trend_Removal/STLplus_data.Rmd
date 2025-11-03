@@ -11,7 +11,7 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Read generated Data
+## Find repo root
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 library(readr)
@@ -40,7 +40,11 @@ find_repo_root <- function(marker = "README.md") {
 
 # Find repo root using a known file
 repo_root <- find_repo_root("README.md")
+```
 
+## Read generated Data (csv)
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
 # Path to the CSV file
 GFOC_path <- path(repo_root, "Dataset", "Dataset_MSc", "GFOC_RDCDFI.csv")
 
@@ -85,12 +89,61 @@ data <- tryCatch(
 
 ```
 
-## Some modifications to the dataset
+## Read generated Data (parquet)
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+library(arrow)
+
+# Path to the parquet file
+GFOC_path <- path(repo_root, "Dataset", "Dataset_MSc", "GFOC_RDCDFI.parquet")
+
+# Columns needed
+columns_needed <- c("time", "orbital_decay")
+
+# Try to load with limited columns first
+data <- tryCatch(
+  {
+    # Use readr::read_csv for efficiency (similar to pandas)
+    dat <- read_parquet(GFOC_path, col_select = all_of(columns_needed))
+    message(sprintf("Successfully loaded data with shape: %d rows, %d cols",
+                    nrow(dat), ncol(dat)))
+    dat
+  },
+  error = function(e) {
+    if (grepl("cannot allocate memory", e$message)) {
+      message("Still running out of memory. Loading in chunks...")
+      
+      # Chunked read
+      chunk_list <- list()
+      chunksize <- 50000
+      
+      read_csv_chunked(
+        GFOC_path,
+        callback = DataFrameCallback$new(function(x, pos) {
+          chunk_list[[length(chunk_list) + 1]] <<- x
+        }),
+        col_select = all_of(columns_needed),
+        chunk_size = chunksize
+      )
+      
+      dat <- do.call(rbind, chunk_list)
+      message(sprintf("Successfully loaded data in chunks with shape: %d rows, %d cols",
+                      nrow(dat), ncol(dat)))
+      dat
+    } else {
+      stop(e)
+    }
+  }
+)
+
+```
+
+## Some modifications to the dataset (run only for csv)
 
 ```{r}
 # remove the last 54322 rows to not include the gap in the data
-n <- nrow(data)
-data <- data[1:(n - 54322), ]
+# n <- nrow(data)
+# data <- data[1:(n - 54322), ]
 
 # Convert time to POSIXct (datetime - should already be correct but just to be sure)
 data$time <- as.POSIXct(data$time, format="%Y-%m-%d %H:%M:%S")
@@ -102,7 +155,8 @@ split dataset into subgroups
 # Example split dates
 split_dates <- c("2023-05-01 00:00:00", 
                  "2023-10-01 00:00:00", 
-                 "2024-03-01 00:00:00")
+                 "2024-03-01 00:00:00",
+                 "2024-07-01 00:00:00")
 
 # Convert to POSIXct
 split_dates <- as.POSIXct(split_dates, format="%Y-%m-%d %H:%M:%S")
@@ -115,7 +169,8 @@ labels <- c(
   paste0(format(breaks[1], "%Y-%m-%d"), "_to_", format(breaks[2], "%Y-%m-%d")),
   paste0(format(breaks[2], "%Y-%m-%d"), "_to_", format(breaks[3], "%Y-%m-%d")),
   paste0(format(breaks[3], "%Y-%m-%d"), "_to_", format(breaks[4], "%Y-%m-%d")),
-  paste0(format(breaks[4], "%Y-%m-%d"), "_to_", format(breaks[5], "%Y-%m-%d"))
+  paste0(format(breaks[4], "%Y-%m-%d"), "_to_", format(breaks[5], "%Y-%m-%d")),
+  paste0(format(breaks[5], "%Y-%m-%d"), "_to_", format(breaks[6], "%Y-%m-%d"))
 )
 
 # Assign groups
@@ -144,8 +199,11 @@ stl_decompose <- function(period_days, x, time) {
   # Benchmark start
   start_time <- Sys.time()
   
-  # Convert days to half minutes (data sample rate)
-  period <- period_days * 24 * 120
+  # Convert days to half minutes (data sample rate for csv)
+  # period <- period_days * 24 * 120
+  
+  # Convert days to 20 seconds (data sample rate for parquet)
+  period <- period_days * 24 * 60 * 3
   
   # Make sure seasonal period is odd
   seasonal <- ifelse(period %% 2 == 0, period + 1, period)
@@ -213,12 +271,14 @@ stl_decompose <- function(period_days, x, time) {
 
 ```{r}
 res_D <- stl_decompose(
-  period_days = 4.82,
-  x = data_groups$`2023-05-01_to_2023-10-01`$orbital_decay,
-  
-  time = data_groups$`2023-05-01_to_2023-10-01`$time
+  period_days = 27.77,
+  x = data_groups$`2023-01-01_to_2023-05-01`$orbital_decay,
+  time = data_groups$`2023-01-01_to_2023-05-01`$time
 )
 ```
+
+
+
 ```{r}
 # Recreated (trend + seasonal)
 recreated <- res_D$data$seasonal + res_D$data$trend
@@ -237,6 +297,8 @@ legend("topleft", legend = c("Original", "Recreated (STL)"),
 mean_diff <- mean(abs(orig - recreated), na.rm = TRUE)
 cat("Mean absolute difference:", mean_diff, "\n")
 ```
+
+
 
 ```{r}
 # Difference (residuals)
