@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from utils.data_loader import load_flags
+from astropy.timeseries import LombScargle
 
 def format_ticks(ax, tick_interval, tick_step):
     if tick_interval == 'monthly':
@@ -154,7 +155,6 @@ def plot_orbital_decay(
         plt.show()
     
     if Lombscargle:
-        from astropy.timeseries import LombScargle
 
         # Convert time to numerical values (in days)
         times_num = (times - times.iloc[0]).dt.total_seconds() / (24 * 3600)  # days since start
