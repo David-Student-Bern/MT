@@ -172,8 +172,9 @@ def aggregate_multistep_predictions(y_pred, dt_seconds, error_kind='std'):
     sem = std / np.sqrt(count.replace(0, np.nan))
     min_ = wide.min(axis=1, skipna=True)
     max_ = wide.max(axis=1, skipna=True)
+    horizon0 = wide.bfill(axis=1).iloc[:, 0]
 
-    agg = pd.DataFrame({'mean': mean, 'std': std, 'sem': sem, 'count': count, 'min': min_, 'max': max_})
+    agg = pd.DataFrame({'mean': mean, 'std': std, 'sem': sem, 'count': count, 'min': min_, 'max': max_, 'horizon0': horizon0})
 
     # choose error column to return in the same df for easy plotting
     agg['error'] = agg['std'] if error_kind == 'std' else agg['sem']
