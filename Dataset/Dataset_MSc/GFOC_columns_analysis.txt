@@ -1,0 +1,171 @@
+Common columns:
+lat_ell [deg]
+beta_sun [deg]
+VX_EF [m/s]
+Bz GSE
+X_IN [m]
+Magnetosonic mach number
+RMS Timeshift (seconds)
+VX_IN [m/s]
+F10.7 (LASP)
+Alfven mach number
+Plasma beta
+VY_IN [m/s]
+|avg B|
+r [m]
+orbital_decay
+Spacecraft Position z
+Bx GSE
+Flow pressure (nPa)
+# fine scale Plasma points
+Vy Velocity (km/s)
+Proton density (n/cc)
+a [m]
+Omega [deg]
+Time between observations (seconds)
+V [m^2/s^2]
+Z_IN [m]
+SymD (Omni)
+h_ell [m]
+omega [deg]
+Approximate Distance to SEL (Re)
+i [deg]
+Spacecraft Position x
+Vx Velocity (km/s)
+Z_EF [m]
+ae (Omni)
+lon_ell [deg]
+Kp (LASP)
+Au (Omni)
+Bow Shock Nose Position z
+VZ_EF [m/s]
+Bz GSM
+X_EF [m]
+T0 [s]
+By GSM
+Bow Shock Nose Position x
+a [m] TLE
+u_sat [deg]
+Temperature (K)
+Alpha/Proton Ratio
+rho [kg/m^3]
+RMS SD B scalar (nT)
+Bow Shock Nose Position y
+Vz Velocity (km/s)
+ap (LASP)
+Spacecraft ID (Plasma)
+Spacecraft Position y
+By GSE
+VZ_IN [m/s]
+lon_sph [deg]
+e [-]
+Y_EF [m]
+lat_sph [deg]
+AsyH (Omni)
+# fine scale IMF points
+SVN
+AsyD (Omni)
+AL (Omni)
+Flow Speed (km/s
+Percent Interpolated
+Spacecraft ID (IMF)
+u_sun [deg]
+Y_IN [m]
+SymH (Omni)
+Timeshift (seconds)
+Electric Field (Mv/m)
+VY_EF [m/s]
+RMS SD B vector (nT)
+
+Columns unique to new dataset:
+Electric Field (Mv/m)_slope
+gp_R [mm/s^2]
+a_m
+Flow Speed (km/s_res
+F30 (LASP)
+gp_W [mm/s^2]
+Bz GSE_res
+emi_S [nm/s^2]
+Electric Field (Mv/m)_res
+Flow Speed (km/s_res_std
+Flow Speed (km/s_intercept
+air_W [nm/s^2]
+srp_S [nm/s^2]
+Solar Cycle
+Proton density (n/cc)_res_std
+Electric Field (Mv/m)_intercept
+|avg B|_slope
+srp_W [nm/s^2]
+Bartels Rotation Number
+Bz GSE_se_slope
+aDot_m_s
+|avg B|_res
+ref_W [nm/s^2]
+Bz GSE_slope
+orbital_decay_tle
+Electric Field (Mv/m)_se_slope
+air_R [nm/s^2]
+ref_R [nm/s^2]
+Electric Field (Mv/m)_res_std
+air_S [nm/s^2]
+emi_R [nm/s^2]
+Proton density (n/cc)_se_slope
+L1 Distance Gradient Residuals
+Proton density (n/cc)_slope
+|avg B|_se_slope
+srp_R [nm/s^2]
+Bz GSE_res_std
+L1 Distance Gradient
+Flow Speed (km/s_slope
+gp_S [mm/s^2]
+|avg B|_res_std
+Flow Speed (km/s_se_slope
+emi_W [nm/s^2]
+ref_S [nm/s^2]
+Position Anomaly
+Proton density (n/cc)_intercept
+Proton density (n/cc)_res
+|avg B|_intercept
+Bz GSE_intercept
+
+Columns unique to old dataset:
+unresolved
+trend_c
+mean_altitude_c
+mean_altitude
+is_maneuver_day
+seasonal_4
+se_orbital_decay
+is_maneuver_day_extended
+residual_c
+se_orbital_decay_c
+air_z [nm/s^2]
+seasonal_2_c
+Dst (nT) (LASP)
+intercept
+seasonal_2
+is_maneuver_unresolved_10m_decay
+residual
+se_slope
+time
+unresolved_c
+orbital_decay_c
+is_missing_day_extended
+air_x [nm/s^2]
+air_y [nm/s^2]
+seasonal_1_c
+res_std
+is_maneuver_period_generic
+DoY
+res_std_c
+is_man_or_missing
+is_missing_day
+res_c
+trend
+seasonal_3_c
+is_maneuver_unresolved
+seasonal_4_c
+seasonal_3
+res
+seasonal_1
+slope
