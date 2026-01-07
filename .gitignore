@@ -13,6 +13,7 @@ Dataset/Dataset_MSc/Manuevers/
 Dataset/Dataset_MSc/Residuals/
 utils/__pycache__/
 temp/
+Dataset/
 
 # Ignore specific files
 Workdays.ods
