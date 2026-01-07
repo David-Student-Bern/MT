@@ -121,7 +121,7 @@ def make_lags(df, lag_config, lead_time=1):
 
 def make_multistep_target(ts, steps, stepsize=1):
     return pd.concat(
-        {f'y_step_{i * stepsize + 1}': ts.shift(-i * stepsize).iloc[:, 0]
+        {f'y_step_{i + 1}': ts.shift(-(i+1) * stepsize).iloc[:, 0]
          for i in range(steps//stepsize)},
         axis=1)
 
