@@ -30,6 +30,7 @@ Analysis/Orbital_Decay/Trend_Removal/test.ipynb
 Analysis/Orbital_Decay/Trend_Removal/lowess_a.ipynb
 Analysis/**/*.csv
 Analysis/**/**/*.csv
+Analysis/modeling/saved_models/*.pkl
 Analysis/Orbital_Decay/Trend_Removal/STL_tutorial.ipynb
 Analysis/Orbital_Decay/generated/test.ipynb
 Analysis/Orbital_Decay/Trend_Removal/STL.odg

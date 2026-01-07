@@ -1,0 +1,30 @@
+2026-01-07 15:26:30,321 - INFO - Script started: 2026-01-07 15:26:30.321050
+2026-01-07 15:26:37,339 - INFO - --Modeling Parameters--
+2026-01-07 15:26:37,340 - INFO - lag_config_trend: 8 different features
+2026-01-07 15:26:37,340 - INFO -     "|avg B|": 129 lags,
+2026-01-07 15:26:37,340 - INFO -     "Bz GSE": 129 lags,
+2026-01-07 15:26:37,340 - INFO -     "Temperature (K)": 129 lags,
+2026-01-07 15:26:37,340 - INFO -     "Flow Speed (km/s": 129 lags,
+2026-01-07 15:26:37,340 - INFO -     "F10.7 (LASP)": 7 lags,
+2026-01-07 15:26:37,340 - INFO -     "median_decay_last_7D": 5 lags,
+2026-01-07 15:26:37,340 - INFO -     "median_decay_last_14D": 5 lags,
+2026-01-07 15:26:37,340 - INFO -     "median_decay_last_30D": 5 lags,
+2026-01-07 15:26:37,340 - INFO - Total features: 538
+2026-01-07 15:26:37,340 - INFO - Target: trend
+2026-01-07 15:26:37,340 - INFO - Forecast horizon: 12 hours ahead, stepsize: 15.0 minutes (=48 steps)
+2026-01-07 15:26:37,340 - INFO - Training samples: 46934, Testing samples: 23511
+2026-01-07 15:28:36,292 - INFO - -- Model Description --
+2026-01-07 15:28:36,292 - INFO - Model class: Lasso
+2026-01-07 15:28:36,293 - INFO -   alpha: 0.3
+2026-01-07 15:28:36,293 - INFO -   copy_X: True
+2026-01-07 15:28:36,293 - INFO -   fit_intercept: True
+2026-01-07 15:28:36,293 - INFO -   max_iter: 1000
+2026-01-07 15:28:36,293 - INFO -   positive: False
+2026-01-07 15:28:36,293 - INFO -   precompute: False
+2026-01-07 15:28:36,293 - INFO -   random_state: None
+2026-01-07 15:28:36,293 - INFO -   selection: cyclic
+2026-01-07 15:28:36,293 - INFO -   tol: 0.0001
+2026-01-07 15:28:36,293 - INFO -   warm_start: False
+2026-01-07 15:28:40,226 - INFO - Script finished: 2026-01-07 15:28:40.226014
+2026-01-07 15:28:40,226 - INFO - Elapsed time: 0:02:09.904964
+2026-01-07 15:28:40,226 - INFO - =======================================
