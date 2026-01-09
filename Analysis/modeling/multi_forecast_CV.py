@@ -1,6 +1,6 @@
 import os
-os.environ["OMP_NUM_THREADS"] = "20"
-os.environ["MKL_NUM_THREADS"] = "20"
+os.environ["OMP_NUM_THREADS"] = "1"
+os.environ["MKL_NUM_THREADS"] = "1"
 
 import sys
 from pathlib import Path
@@ -314,7 +314,7 @@ model_trend = MultiTaskLassoCV(
     alphas=alphas, 
     cv=5,
     max_iter=5000,
-    n_jobs=-1
+    n_jobs=20
 )
 
 model_trend.fit(X_train_scaled, y_train)

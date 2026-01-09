@@ -28,3 +28,73 @@
 2026-01-07 15:28:40,226 - INFO - Script finished: 2026-01-07 15:28:40.226014
 2026-01-07 15:28:40,226 - INFO - Elapsed time: 0:02:09.904964
 2026-01-07 15:28:40,226 - INFO - =======================================
+2026-01-07 18:47:25,551 - INFO - Script started: 2026-01-07 18:47:25.551724
+2026-01-07 18:47:30,927 - INFO - --Modeling Parameters--
+2026-01-07 18:47:30,927 - INFO - lag_config_trend: 8 different features
+2026-01-07 18:47:30,927 - INFO -     "|avg B|": 129 lags,
+2026-01-07 18:47:30,928 - INFO -     "Bz GSE": 129 lags,
+2026-01-07 18:47:30,928 - INFO -     "Temperature (K)": 129 lags,
+2026-01-07 18:47:30,928 - INFO -     "Flow Speed (km/s": 129 lags,
+2026-01-07 18:47:30,928 - INFO -     "F10.7 (LASP)": 7 lags,
+2026-01-07 18:47:30,928 - INFO -     "median_decay_last_7D": 5 lags,
+2026-01-07 18:47:30,928 - INFO -     "median_decay_last_14D": 5 lags,
+2026-01-07 18:47:30,928 - INFO -     "median_decay_last_30D": 5 lags,
+2026-01-07 18:47:30,928 - INFO - Total features: 538
+2026-01-07 18:47:30,928 - INFO - Target: trend
+2026-01-07 18:47:30,928 - INFO - Forecast horizon: 12 hours ahead, stepsize: 15 minutes (=48 steps)
+2026-01-07 18:47:30,928 - INFO - Training samples: 46847, Testing samples: 23487
+2026-01-07 18:49:14,120 - INFO - -- Model Description --
+2026-01-07 18:49:14,120 - INFO - Model class: Lasso
+2026-01-07 18:49:14,120 - INFO -   alpha: 0.3
+2026-01-07 18:49:14,120 - INFO -   copy_X: True
+2026-01-07 18:49:14,120 - INFO -   fit_intercept: True
+2026-01-07 18:49:14,121 - INFO -   max_iter: 1000
+2026-01-07 18:49:14,121 - INFO -   positive: False
+2026-01-07 18:49:14,121 - INFO -   precompute: False
+2026-01-07 18:49:14,121 - INFO -   random_state: None
+2026-01-07 18:49:14,121 - INFO -   selection: cyclic
+2026-01-07 18:49:14,121 - INFO -   tol: 0.0001
+2026-01-07 18:49:14,121 - INFO -   warm_start: False
+2026-01-07 18:49:14,121 - INFO - Model ID: lasso_trend_model_1
+2026-01-07 18:49:17,507 - INFO - Script finished: 2026-01-07 18:49:17.507823
+2026-01-07 18:49:17,508 - INFO - Elapsed time: 0:01:51.956099
+2026-01-07 18:49:17,508 - INFO - =======================================
+2026-01-07 19:24:57,686 - INFO - Script started: 2026-01-07 19:24:57.686791
+2026-01-07 19:25:03,354 - INFO - --Modeling Parameters--
+2026-01-07 19:25:03,355 - INFO - lag_config_trend: 8 different features
+2026-01-07 19:25:03,355 - INFO -     "|avg B|": 129 lags,
+2026-01-07 19:25:03,355 - INFO -     "Bz GSE": 129 lags,
+2026-01-07 19:25:03,355 - INFO -     "Temperature (K)": 129 lags,
+2026-01-07 19:25:03,355 - INFO -     "Flow Speed (km/s": 129 lags,
+2026-01-07 19:25:03,355 - INFO -     "F10.7 (LASP)": 7 lags,
+2026-01-07 19:25:03,355 - INFO -     "median_decay_last_7D": 5 lags,
+2026-01-07 19:25:03,355 - INFO -     "median_decay_last_14D": 5 lags,
+2026-01-07 19:25:03,355 - INFO -     "median_decay_last_30D": 5 lags,
+2026-01-07 19:25:03,355 - INFO - Total features: 538
+2026-01-07 19:25:03,355 - INFO - Target: trend
+2026-01-07 19:25:03,355 - INFO - Forecast horizon: 12 hours ahead, stepsize: 15 minutes (=48 steps)
+2026-01-07 19:25:03,355 - INFO - Training samples: 46847, Testing samples: 23487
+2026-01-08 16:17:56,821 - INFO - -- Model Description --
+2026-01-08 16:17:56,821 - INFO - Model class: MultiTaskLassoCV
+2026-01-08 16:17:56,822 - INFO -   alphas: [ 0.01        0.01193777  0.01425103  0.01701254  0.02030918  0.02424462
+  0.02894266  0.03455107  0.04124626  0.04923883  0.05878016  0.07017038
+  0.08376776  0.1         0.11937766  0.14251027  0.17012543  0.20309176
+  0.2424462   0.28942661  0.34551073  0.41246264  0.49238826  0.58780161
+  0.70170383  0.83767764  1.          1.19377664  1.42510267  1.70125428
+  2.03091762  2.42446202  2.89426612  3.45510729  4.12462638  4.92388263
+  5.87801607  7.01703829  8.3767764  10.        ]
+2026-01-08 16:17:56,822 - INFO -   copy_X: True
+2026-01-08 16:17:56,822 - INFO -   cv: 5
+2026-01-08 16:17:56,822 - INFO -   eps: 0.001
+2026-01-08 16:17:56,822 - INFO -   fit_intercept: True
+2026-01-08 16:17:56,822 - INFO -   max_iter: 5000
+2026-01-08 16:17:56,822 - INFO -   n_alphas: 100
+2026-01-08 16:17:56,822 - INFO -   n_jobs: 20
+2026-01-08 16:17:56,822 - INFO -   random_state: None
+2026-01-08 16:17:56,822 - INFO -   selection: cyclic
+2026-01-08 16:17:56,822 - INFO -   tol: 0.0001
+2026-01-08 16:17:56,822 - INFO -   verbose: False
+2026-01-08 16:17:56,822 - INFO - Model ID: multitask_lasso_trend_model_1
+2026-01-08 16:18:04,058 - INFO - Script finished: 2026-01-08 16:18:04.058425
+2026-01-08 16:18:04,058 - INFO - Elapsed time: 20:53:06.371634
+2026-01-08 16:18:04,058 - INFO - =======================================
