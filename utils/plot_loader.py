@@ -28,6 +28,13 @@ def create_subset(Data, start_date, end_date, resample_rate=None):
         subset = subset.resample(resample_rate, on='time').mean()
     return subset
 
+def create_subset2(Data, start_date, end_date, resample_rate=None):
+    df = Data.copy()
+    df = df[(pd.Timestamp(start_date) < df.index) & (df.index < pd.Timestamp(end_date))]
+    if resample_rate:
+        df = df.resample(resample_rate).mean()
+    return df
+
 def plot_orbital_decay(
     Data,
     Data2=None,

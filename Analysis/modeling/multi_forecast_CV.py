@@ -10,11 +10,10 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-
+# flake8: noqa: E402
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import seaborn as sns
 from numpy.polynomial import Polynomial
 from statsmodels.tsa.seasonal import STL
 from sklearn.metrics import root_mean_squared_error, r2_score
@@ -23,6 +22,9 @@ from utils.plot_loader import create_subset
 from utils.modeling import statistics, make_lags, make_multistep_target, aggregate_multistep_predictions
 from datetime import datetime
 import logging
+from sklearn.linear_model import MultiTaskLassoCV #,LinearRegression, Lasso
+import joblib
+from sklearn.preprocessing import StandardScaler
 
 # =======================================================================================================
 # Logging configuration
@@ -276,7 +278,7 @@ X_test = pd.concat(X_trend_list[-no_test_subsets:])
 y_test = pd.concat(y_trend_list[-no_test_subsets:])
 
 # log modeling parameters
-logging.info(f"--Modeling Parameters--")
+logging.info("--Modeling Parameters--")
 logging.info(f"lag_config_trend: {len(lag_config_trend)} different features")
 for feature, cfg in lag_config_trend.items():
     n_lags = len(cfg.get("lags", []))
@@ -288,10 +290,6 @@ logging.info(f"Training samples: {X_train.shape[0]}, Testing samples: {X_test.sh
 # =======================================================================================================
 # Training
 # =======================================================================================================
-from sklearn.linear_model import LinearRegression, Lasso, MultiTaskLassoCV
-from sklearn.preprocessing import StandardScaler
-import joblib
-
 scaler = StandardScaler()
 # scale and convert back to DataFrames
 X_train_scaled = pd.DataFrame(
@@ -299,6 +297,11 @@ X_train_scaled = pd.DataFrame(
     index=X_train.index,
     columns=X_train.columns
 )
+
+# save scaler
+scaler_name = "multitask_lasso_trend_scaler_2"
+scaler_path = find_repo_root() / Path(f"Analysis/modeling/saved_models/{scaler_name}.pkl")
+joblib.dump(scaler, scaler_path)
 
 X_test_scaled = pd.DataFrame(
     scaler.transform(X_test),
@@ -320,8 +323,7 @@ model_trend = MultiTaskLassoCV(
 model_trend.fit(X_train_scaled, y_train)
 
 # save model
-import joblib
-model_name = "multitask_lasso_trend_model_1"
+model_name = "multitask_lasso_trend_model_2"
 model_path = find_repo_root() / Path(f"Analysis/modeling/saved_models/{model_name}.pkl")
 joblib.dump(model_trend, model_path)
 
@@ -331,6 +333,7 @@ y_test_pred = pd.DataFrame(model_trend.predict(X_test_scaled), index=X_test.inde
 # logging model info
 log_model_description(model_trend)
 logging.info(f"Model ID: {model_name}")
+logging.info(f"Scaler ID: {scaler_name}")
 
 # =======================================================================================================
 # Evaluation
