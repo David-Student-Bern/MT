@@ -16,10 +16,9 @@ import numpy as np
 import pandas as pd
 from numpy.polynomial import Polynomial
 from statsmodels.tsa.seasonal import STL
-from sklearn.metrics import root_mean_squared_error, r2_score
 from utils.data_loader import load_parquet, find_repo_root
 from utils.plot_loader import create_subset
-from utils.modeling import statistics, make_lags, make_multistep_target, aggregate_multistep_predictions
+from utils.modeling import make_lags, make_multistep_target
 from datetime import datetime
 import logging
 from sklearn.linear_model import MultiTaskLassoCV #,LinearRegression, Lasso
@@ -45,6 +44,7 @@ logging.basicConfig(
 
 # === Start timing ===
 start_time = datetime.now()
+logging.info("=======================================")
 logging.info(f"Script started: {start_time}")
 
 # =======================================================================================================
@@ -335,64 +335,8 @@ log_model_description(model_trend)
 logging.info(f"Model ID: {model_name}")
 logging.info(f"Scaler ID: {scaler_name}")
 
-# =======================================================================================================
-# Evaluation
-# =======================================================================================================
-
-coef_df = pd.DataFrame({
-    'feature': X_train.columns,
-    'coefficient': model_trend.coef_[1, :]
-})
-coef_df = coef_df.sort_values(by='coefficient', key=abs, ascending=False)
-coef_df['lag_hours'] = coef_df['feature'].apply(lambda x: f"{int(x.split('_')[-1]) * (dt_seconds / 3600):.2f}" if 'lag' in x else np.nan)
-print(coef_df.head(10))
-
-# ===================================================
-statistics(y_train, y_train_pred, y_test, y_test_pred)
-
-# ===================================================
-od_train = aggregate_multistep_predictions(y_train, dt_seconds=dt_seconds, error_kind='sem')
-od_test = aggregate_multistep_predictions(y_test, dt_seconds=dt_seconds, error_kind='sem')
-od_train_pred = aggregate_multistep_predictions(y_train_pred, dt_seconds=dt_seconds, error_kind='sem')
-od_test_pred = aggregate_multistep_predictions(y_test_pred, dt_seconds=dt_seconds, error_kind='sem')
-
-train_range = range(len(od_train))
-fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(11, 6))
-ax1.plot(train_range, od_train['mean'], color='black')
-ax1.plot(train_range, od_train_pred['mean'], color='C0')
-ax1.fill_between(train_range, od_train_pred['mean'] - 1.96 *od_train_pred['sem'], od_train_pred['mean'] + 1.96 *od_train_pred['sem'], color='C0', alpha=0.3)
-ax1.plot(train_range, od_train_pred['horizon0'], color='green',  alpha=0.3)
-_ = ax1.legend(['True Trend (train)', 'Mean Prediction', '95% Prediction Band', 'Raw Prediction at horizon 0'])
-ax1.grid(True)
-ax1.set_title(f"Training: RMSE = {root_mean_squared_error(y_train, y_train_pred):.2f}, R2 = {r2_score(y_train, y_train_pred):.2f}")
-
-test_range = range(len(od_test))
-# plot complete forecast horizon
-ax2.plot(test_range, od_test['mean'], color='black')
-ax2.plot(test_range, od_test_pred['mean'], color='C0')
-ax2.fill_between(test_range, od_test_pred['mean'] - 1.96 *od_test_pred['sem'], od_test_pred['mean'] + 1.96 *od_test_pred['sem'], color='C0', alpha=0.3)
-ax2.plot(test_range, od_test_pred['horizon0'], color='green',  alpha=0.3)
-_ = ax2.legend(['True Trend (test)', 'Mean Prediction', '95% Prediction Band', 'Raw Prediction at horizon 0'])
-ax2.grid(True)
-ax2.set_title(f"Testing: RMSE = {root_mean_squared_error(y_test, y_test_pred):.2f}, R2 = {r2_score(y_test, y_test_pred):.2f}")
-plt.tight_layout()
-plt.show()
-
-# ===================================================
-# Plots
-# ===================================================
-train_subsets = split_by_time_gap(od_train, dt_seconds)
-train_pred_subsets = split_by_time_gap(od_train_pred, dt_seconds)
-
-test_subsets = split_by_time_gap(od_test, dt_seconds)
-test_pred_subsets = split_by_time_gap(od_test_pred, dt_seconds)
-
-plot_subsets(train_subsets, train_pred_subsets, "Train")
-plot_subsets(test_subsets, test_pred_subsets, "Test")
-
 # === End timing ===
 end_time = datetime.now()
 elapsed = end_time - start_time
 logging.info(f"Script finished: {end_time}")
 logging.info(f"Elapsed time: {elapsed}")
-logging.info("=======================================")

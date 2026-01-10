@@ -97,4 +97,77 @@
 2026-01-08 16:17:56,822 - INFO - Model ID: multitask_lasso_trend_model_1
 2026-01-08 16:18:04,058 - INFO - Script finished: 2026-01-08 16:18:04.058425
 2026-01-08 16:18:04,058 - INFO - Elapsed time: 20:53:06.371634
-2026-01-08 16:18:04,058 - INFO - =======================================
+2026-01-10 17:01:35,536 - INFO - =======================================
+2026-01-10 17:01:35,537 - INFO - Script started: 2026-01-10 17:01:35.536326
+2026-01-10 17:01:35,538 - INFO - -- Basic Settings --
+2026-01-10 17:01:35,538 - INFO - Sampling rate: 5min
+2026-01-10 17:01:35,539 - INFO - Time range: 2023-01-01 00:00:00 to 2024-07-01 00:00:00
+2026-01-10 17:01:35,539 - INFO - Kp sorting: False
+2026-01-10 17:01:37,109 - INFO - --Modeling Parameters--
+2026-01-10 17:01:37,109 - INFO - lag_config_trend: 8 different features
+2026-01-10 17:01:37,110 - INFO -     "|avg B|": 129 lags,
+2026-01-10 17:01:37,110 - INFO -     "Bz GSE": 129 lags,
+2026-01-10 17:01:37,111 - INFO -     "Temperature (K)": 129 lags,
+2026-01-10 17:01:37,111 - INFO -     "Flow Speed (km/s": 129 lags,
+2026-01-10 17:01:37,111 - INFO -     "F10.7 (LASP)": 7 lags,
+2026-01-10 17:01:37,111 - INFO -     "median_decay_last_7D": 5 lags,
+2026-01-10 17:01:37,112 - INFO -     "median_decay_last_14D": 5 lags,
+2026-01-10 17:01:37,112 - INFO -     "median_decay_last_30D": 5 lags,
+2026-01-10 17:01:37,113 - INFO - Total features: 538
+2026-01-10 17:01:37,113 - INFO - Target: trend
+2026-01-10 17:01:37,113 - INFO - Forecast horizon: 12 hours ahead, stepsize: 15 minutes (=48 steps)
+2026-01-10 17:01:37,114 - INFO - Training samples: 156799
+2026-01-10 17:10:28,832 - INFO - -- Model Description --
+2026-01-10 17:10:28,833 - INFO - Model class: Lasso
+2026-01-10 17:10:28,834 - INFO -   alpha: 0.3
+2026-01-10 17:10:28,834 - INFO -   copy_X: True
+2026-01-10 17:10:28,834 - INFO -   fit_intercept: True
+2026-01-10 17:10:28,835 - INFO -   max_iter: 1000
+2026-01-10 17:10:28,836 - INFO -   positive: False
+2026-01-10 17:10:28,836 - INFO -   precompute: False
+2026-01-10 17:10:28,836 - INFO -   random_state: None
+2026-01-10 17:10:28,837 - INFO -   selection: cyclic
+2026-01-10 17:10:28,837 - INFO -   tol: 0.0001
+2026-01-10 17:10:28,838 - INFO -   warm_start: False
+2026-01-10 17:10:28,838 - INFO - Model ID: lasso_trend_model_3
+2026-01-10 17:10:28,839 - INFO - Scaler ID: lasso_trend_scaler_3
+2026-01-10 17:10:28,839 - INFO - Script finished: 2026-01-10 17:10:28.839150
+2026-01-10 17:10:28,839 - INFO - Elapsed time: 0:08:53.302824
+2026-01-10 17:13:33,384 - INFO - =======================================
+2026-01-10 17:13:33,385 - INFO - Script started: 2026-01-10 17:13:33.384665
+2026-01-10 17:13:33,385 - INFO - -- Basic Settings --
+2026-01-10 17:13:33,385 - INFO - Sampling rate: 5min
+2026-01-10 17:13:33,386 - INFO - Time range: 2023-01-01 00:00:00 to 2024-07-01 00:00:00
+2026-01-10 17:13:33,387 - INFO - Kp sorting: True
+2026-01-10 17:13:33,387 - INFO - -->  Training only on times with Kp >= 4
+2026-01-10 17:13:35,031 - INFO - --Modeling Parameters--
+2026-01-10 17:13:35,031 - INFO - lag_config_trend: 8 different features
+2026-01-10 17:13:35,046 - INFO -     "|avg B|": 129 lags,
+2026-01-10 17:13:35,046 - INFO -     "Bz GSE": 129 lags,
+2026-01-10 17:13:35,047 - INFO -     "Temperature (K)": 129 lags,
+2026-01-10 17:13:35,047 - INFO -     "Flow Speed (km/s": 129 lags,
+2026-01-10 17:13:35,047 - INFO -     "F10.7 (LASP)": 7 lags,
+2026-01-10 17:13:35,048 - INFO -     "median_decay_last_7D": 5 lags,
+2026-01-10 17:13:35,048 - INFO -     "median_decay_last_14D": 5 lags,
+2026-01-10 17:13:35,049 - INFO -     "median_decay_last_30D": 5 lags,
+2026-01-10 17:13:35,050 - INFO - Total features: 538
+2026-01-10 17:13:35,050 - INFO - Target: trend
+2026-01-10 17:13:35,050 - INFO - Forecast horizon: 12 hours ahead, stepsize: 15 minutes (=48 steps)
+2026-01-10 17:13:35,050 - INFO - Training samples: 156799
+2026-01-10 17:14:33,178 - INFO - Trained on 12209 samples (Kp >= 4)
+2026-01-10 17:14:33,186 - INFO - -- Model Description --
+2026-01-10 17:14:33,187 - INFO - Model class: Lasso
+2026-01-10 17:14:33,188 - INFO -   alpha: 0.3
+2026-01-10 17:14:33,188 - INFO -   copy_X: True
+2026-01-10 17:14:33,189 - INFO -   fit_intercept: True
+2026-01-10 17:14:33,189 - INFO -   max_iter: 1000
+2026-01-10 17:14:33,190 - INFO -   positive: False
+2026-01-10 17:14:33,191 - INFO -   precompute: False
+2026-01-10 17:14:33,192 - INFO -   random_state: None
+2026-01-10 17:14:33,193 - INFO -   selection: cyclic
+2026-01-10 17:14:33,193 - INFO -   tol: 0.0001
+2026-01-10 17:14:33,194 - INFO -   warm_start: False
+2026-01-10 17:14:33,194 - INFO - Model ID: lasso_trend_model_2
+2026-01-10 17:14:33,194 - INFO - Scaler ID: lasso_trend_scaler_2
+2026-01-10 17:14:33,195 - INFO - Script finished: 2026-01-10 17:14:33.195305
+2026-01-10 17:14:33,195 - INFO - Elapsed time: 0:00:59.810640
