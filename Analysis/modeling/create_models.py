@@ -1,6 +1,7 @@
 import os
-os.environ["OMP_NUM_THREADS"] = "1"
-os.environ["MKL_NUM_THREADS"] = "1"
+# os.environ["OMP_NUM_THREADS"] = "1"
+# os.environ["MKL_NUM_THREADS"] = "1"
+os.nice(19)
 
 import sys
 from pathlib import Path
@@ -65,7 +66,7 @@ if model_type == 'lasso':
 elif model_type == 'LinearRegression':
     model = LinearRegression()
 elif model_type == 'MultiTaskLassoCV':
-    alphas = alphas = np.logspace(-2, 1, 40)
+    alphas = np.logspace(-2, 1, 40)
     model = MultiTaskLassoCV(
         alphas=alphas, 
         cv=5,
