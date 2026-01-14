@@ -171,3 +171,69 @@
 2026-01-10 17:14:33,194 - INFO - Scaler ID: lasso_trend_scaler_2
 2026-01-10 17:14:33,195 - INFO - Script finished: 2026-01-10 17:14:33.195305
 2026-01-10 17:14:33,195 - INFO - Elapsed time: 0:00:59.810640
+2026-01-11 10:22:32,193 - INFO - =======================================
+2026-01-11 10:22:32,193 - INFO - Script started: 2026-01-11 10:22:32.193631
+2026-01-11 10:22:32,194 - INFO - -- Basic Settings --
+2026-01-11 10:22:32,194 - INFO - Sampling rate: 5min
+2026-01-11 10:22:32,194 - INFO - Time range: 2023-01-01 00:00:00 to 2024-07-01 00:00:00
+2026-01-11 10:22:32,194 - INFO - Kp sorting: True
+2026-01-11 10:22:32,194 - INFO - -->  Training only on times with Kp >= 4
+2026-01-11 10:22:34,596 - INFO - --Modeling Parameters--
+2026-01-11 10:22:34,596 - INFO - lag_config_trend: 8 different features
+2026-01-11 10:22:34,596 - INFO -     "|avg B|": 129 lags,
+2026-01-11 10:22:34,597 - INFO -     "Bz GSE": 129 lags,
+2026-01-11 10:22:34,597 - INFO -     "Temperature (K)": 129 lags,
+2026-01-11 10:22:34,597 - INFO -     "Flow Speed (km/s": 129 lags,
+2026-01-11 10:22:34,597 - INFO -     "F10.7 (LASP)": 7 lags,
+2026-01-11 10:22:34,597 - INFO -     "median_decay_last_7D": 5 lags,
+2026-01-11 10:22:34,597 - INFO -     "median_decay_last_14D": 5 lags,
+2026-01-11 10:22:34,597 - INFO -     "median_decay_last_30D": 5 lags,
+2026-01-11 10:22:34,597 - INFO - Total features: 538
+2026-01-11 10:22:34,597 - INFO - Target: trend
+2026-01-11 10:22:34,597 - INFO - Forecast horizon: 12 hours ahead, stepsize: 15 minutes (=48 steps)
+2026-01-11 10:22:34,597 - INFO - Training samples: 156799
+2026-01-12 01:53:54,449 - INFO - Trained on 12209 samples (Kp >= 4)
+2026-01-12 01:53:54,511 - INFO - -- Model Description --
+2026-01-12 01:53:54,511 - INFO - Model class: MultiTaskLassoCV
+2026-01-12 01:53:54,521 - INFO -   alphas: [0.001      0.00119378 0.0014251  0.00170125 0.00203092 0.00242446
+ 0.00289427 0.00345511 0.00412463 0.00492388 0.00587802 0.00701704
+ 0.00837678 0.01       0.01193777 0.01425103 0.01701254 0.02030918
+ 0.02424462 0.02894266 0.03455107 0.04124626 0.04923883 0.05878016
+ 0.07017038 0.08376776 0.1        0.11937766 0.14251027 0.17012543
+ 0.20309176 0.2424462  0.28942661 0.34551073 0.41246264 0.49238826
+ 0.58780161 0.70170383 0.83767764 1.        ]
+2026-01-12 01:53:54,521 - INFO -   copy_X: True
+2026-01-12 01:53:54,521 - INFO -   cv: 5
+2026-01-12 01:53:54,521 - INFO -   eps: 0.001
+2026-01-12 01:53:54,522 - INFO -   fit_intercept: True
+2026-01-12 01:53:54,522 - INFO -   max_iter: 5000
+2026-01-12 01:53:54,522 - INFO -   n_alphas: 100
+2026-01-12 01:53:54,522 - INFO -   n_jobs: 5
+2026-01-12 01:53:54,522 - INFO -   random_state: None
+2026-01-12 01:53:54,522 - INFO -   selection: cyclic
+2026-01-12 01:53:54,522 - INFO -   tol: 0.0001
+2026-01-12 01:53:54,522 - INFO -   verbose: False
+2026-01-12 01:53:54,522 - INFO - Model ID: MultiTaskLassoCV_trend_model_2
+2026-01-12 01:53:54,522 - INFO - Scaler ID: MultiTaskLassoCV_trend_scaler_2
+2026-01-12 01:53:54,526 - INFO - Script finished: 2026-01-12 01:53:54.525417
+2026-01-12 01:53:54,526 - INFO - Elapsed time: 15:31:22.331786
+2026-01-12 09:40:02,630 - INFO - =======================================
+2026-01-12 09:40:02,630 - INFO - Script started: 2026-01-12 09:40:02.630293
+2026-01-12 09:40:02,631 - INFO - -- Basic Settings --
+2026-01-12 09:40:02,631 - INFO - Sampling rate: 5min
+2026-01-12 09:40:02,631 - INFO - Time range: 2023-01-01 00:00:00 to 2024-07-01 00:00:00
+2026-01-12 09:40:02,631 - INFO - Kp sorting: False
+2026-01-12 09:40:04,225 - INFO - --Modeling Parameters--
+2026-01-12 09:40:04,225 - INFO - lag_config_trend: 8 different features
+2026-01-12 09:40:04,225 - INFO -     "|avg B|": 129 lags,
+2026-01-12 09:40:04,226 - INFO -     "Bz GSE": 129 lags,
+2026-01-12 09:40:04,226 - INFO -     "Temperature (K)": 129 lags,
+2026-01-12 09:40:04,226 - INFO -     "Flow Speed (km/s": 129 lags,
+2026-01-12 09:40:04,226 - INFO -     "F10.7 (LASP)": 7 lags,
+2026-01-12 09:40:04,226 - INFO -     "median_decay_last_7D": 5 lags,
+2026-01-12 09:40:04,226 - INFO -     "median_decay_last_14D": 5 lags,
+2026-01-12 09:40:04,226 - INFO -     "median_decay_last_30D": 5 lags,
+2026-01-12 09:40:04,226 - INFO - Total features: 538
+2026-01-12 09:40:04,226 - INFO - Target: trend
+2026-01-12 09:40:04,226 - INFO - Forecast horizon: 12 hours ahead, stepsize: 15 minutes (=48 steps)
+2026-01-12 09:40:04,226 - INFO - Training samples: 156799
