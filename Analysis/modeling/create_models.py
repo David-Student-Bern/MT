@@ -1,4 +1,6 @@
 import os
+# os.environ["OMP_NUM_THREADS"] = "1"
+# os.environ["MKL_NUM_THREADS"] = "1"
 os.nice(19)
 
 import sys
