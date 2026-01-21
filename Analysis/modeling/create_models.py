@@ -1,6 +1,5 @@
 import os
-os.environ["OMP_NUM_THREADS"] = "1"
-os.environ["MKL_NUM_THREADS"] = "1"
+os.nice(19)
 
 import sys
 from pathlib import Path
@@ -55,22 +54,22 @@ target = 'trend'
 n = 12  # hours ahead
 m = 15  # minutes steps
 # ---- Kp sorting ----
-Kp_sorting = False  # if True, train only on times with Kp >= 4
+Kp_sorting = True  # if True, train only on times with Kp >= 4
 # ---- model parameters ----
 model_type = 'MultiTaskLassoCV'
-model_number = 3  # just for naming purposes
+model_number = 4  # just for naming purposes
 model_name = f"{model_type}_{target}_model_{model_number}"
 if model_type == 'lasso':
     model = Lasso(alpha=0.3)
 elif model_type == 'LinearRegression':
     model = LinearRegression()
 elif model_type == 'MultiTaskLassoCV':
-    alphas = alphas = np.logspace(-2, 1, 40)
+    alphas = np.logspace(-2, 1, 40)
     model = MultiTaskLassoCV(
         alphas=alphas, 
         cv=5,
         max_iter=5000,
-        n_jobs=5
+        n_jobs=20
     )
 else:
     raise ValueError(f"Unsupported model type: {model_type}")
