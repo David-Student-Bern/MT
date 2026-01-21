@@ -236,7 +236,8 @@
 2026-01-12 09:40:04,226 - INFO - Total features: 538
 2026-01-12 09:40:04,226 - INFO - Target: trend
 2026-01-12 09:40:04,226 - INFO - Forecast horizon: 12 hours ahead, stepsize: 15 minutes (=48 steps)
-2026-01-12 09:40:04,226 - INFO - Training samples: 1567992026-01-20 08:46:01,616 - INFO - -- Model Description --
+2026-01-12 09:40:04,226 - INFO - Training samples: 156799
+2026-01-20 08:46:01,616 - INFO - -- Model Description --
 2026-01-20 08:46:01,627 - INFO - Model class: MultiTaskLassoCV
 2026-01-20 08:46:01,644 - INFO -   alphas: [ 0.01        0.01193777  0.01425103  0.01701254  0.02030918  0.02424462
   0.02894266  0.03455107  0.04124626  0.04923883  0.05878016  0.07017038

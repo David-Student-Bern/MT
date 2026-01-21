@@ -57,6 +57,8 @@ n = 12  # hours ahead
 m = 15  # minutes steps
 # ---- Kp sorting ----
 Kp_sorting = True  # if True, train only on times with Kp >= 4
+Kp_subsets = True  # if True, train only on times with Kp >= 5 with 24h before and after event
+Kp_file = find_repo_root() / Path("Analysis/modeling/subsets_Kp.csv")
 # ---- model parameters ----
 model_type = 'MultiTaskLassoCV'
 model_number = 4  # just for naming purposes
@@ -84,8 +86,13 @@ logging.info("-- Basic Settings --")
 logging.info(f"Sampling rate: {sampling_rate}")
 logging.info(f"Time range: {start_time} to {end_time}")
 logging.info(f"Kp sorting: {Kp_sorting}")
-if Kp_sorting:
+logging.info(f"Kp subsets: {Kp_subsets}")
+if Kp_sorting and Kp_subsets:
+    raise ValueError("Kp_sorting and Kp_subsets cannot both be True at the same time.")
+elif Kp_sorting:
     logging.info("-->  Training only on times with Kp >= 4")
+elif Kp_subsets:
+    logging.info("-->  Training only on Kp >= 5 with 24h before and after event")
 
 # =======================================================================================================
 # Load Data
@@ -165,6 +172,22 @@ if Kp_sorting:
         y_train.loc[active_times]
     )
     logging.info(f"Trained on {len(active_times)} samples (Kp >= 4)")
+elif Kp_subsets:
+    intervals_df = pd.read_csv(Kp_file)
+    df = GFOC_data.copy()
+    mask = pd.Series(False, index=df.index)
+
+    for _, row in intervals_df.iterrows():
+        mask |= (df.index >= row["start"]) & (df.index <= row["end"])
+    
+    # Train only on these times
+    active_times = GFOC_data[mask].index.intersection(X_train_scaled.index)
+    model.fit(
+        X_train_scaled.loc[active_times],
+        y_train.loc[active_times]
+    )
+    logging.info(f"Trained on {len(active_times)} samples (Kp >= 5 with 24h before and after event)")
+
 else:
     # Train on all times
     model.fit(X_train_scaled, y_train)
