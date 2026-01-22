@@ -55,10 +55,13 @@ target = 'trend'
 # ---- forecast parameters ----
 n = 12  # hours ahead
 m = 15  # minutes steps
-# ---- Kp sorting ----
-Kp_sorting = True  # if True, train only on times with Kp >= 4
-Kp_subsets = True  # if True, train only on times with Kp >= 5 with 24h before and after event
-Kp_file = find_repo_root() / Path("Analysis/modeling/subsets_Kp.csv")
+# ---- Train only on subset ----
+Subset = True  # if True, train only on interesting subsets
+if Subset:
+    invert = False  # if True, train on the uninteresting times
+    Subset_DIR = find_repo_root() / Path("Analysis/Subsets")
+    Subset_name = 'subsets_Kp.csv'  # 'subsets_Kp.csv'  # 'subsets_eflag.csv'  # 'subsets_meanstd.csv' # 'subsets_merged.csv'
+    Subset_file = Subset_DIR / Path(Subset_name)
 # ---- model parameters ----
 model_type = 'MultiTaskLassoCV'
 model_number = 4  # just for naming purposes
@@ -85,14 +88,10 @@ scaler_name = f"{model_type}_{target}_scaler_{model_number}"
 logging.info("-- Basic Settings --")
 logging.info(f"Sampling rate: {sampling_rate}")
 logging.info(f"Time range: {start_time} to {end_time}")
-logging.info(f"Kp sorting: {Kp_sorting}")
-logging.info(f"Kp subsets: {Kp_subsets}")
-if Kp_sorting and Kp_subsets:
-    raise ValueError("Kp_sorting and Kp_subsets cannot both be True at the same time.")
-elif Kp_sorting:
-    logging.info("-->  Training only on times with Kp >= 4")
-elif Kp_subsets:
-    logging.info("-->  Training only on Kp >= 5 with 24h before and after event")
+logging.info(f"Subset training: {Subset}")
+if Subset:
+    logging.info(f"Invert Subset: {invert}")
+    logging.info(f"Subset name: {Subset_name}")
 
 # =======================================================================================================
 # Load Data
@@ -149,7 +148,6 @@ for feature, cfg in lag_config_trend.items():
 logging.info(f"Total features: {X_train.shape[1]}")
 logging.info(f"Target: {target}")
 logging.info(f"Forecast horizon: {n} hours ahead, stepsize: {m} minutes (={y_train.shape[1]} steps)")
-logging.info(f"Training samples: {X_train.shape[0]}")
 # =======================================================================================================
 # Training
 # =======================================================================================================
@@ -164,32 +162,27 @@ X_train_scaled = pd.DataFrame(
 scaler_path = find_repo_root() / Path(f"Analysis/modeling/saved_models/{scaler_name}.pkl")
 joblib.dump(scaler, scaler_path)
 
-if Kp_sorting:
-    # Train only on active times
-    active_times = GFOC_data[GFOC_data['Kp (LASP)'] >= 4].index.intersection(X_train_scaled.index)
-    model.fit(
-        X_train_scaled.loc[active_times],
-        y_train.loc[active_times]
-    )
-    logging.info(f"Trained on {len(active_times)} samples (Kp >= 4)")
-elif Kp_subsets:
-    intervals_df = pd.read_csv(Kp_file)
+if Subset:
+    intervals_df = pd.read_csv(Subset_file)
     df = GFOC_data.copy()
     mask = pd.Series(False, index=df.index)
 
     for _, row in intervals_df.iterrows():
         mask |= (df.index >= row["start"]) & (df.index <= row["end"])
     
+    if invert:
+        mask = ~mask
+
     # Train only on these times
     active_times = GFOC_data[mask].index.intersection(X_train_scaled.index)
+    logging.info(f"Training on {len(active_times)} samples of total {X_train.shape[0]} samples")
     model.fit(
         X_train_scaled.loc[active_times],
         y_train.loc[active_times]
     )
-    logging.info(f"Trained on {len(active_times)} samples (Kp >= 5 with 24h before and after event)")
-
 else:
     # Train on all times
+    logging.info(f"Using all training samples: {X_train.shape[0]}")
     model.fit(X_train_scaled, y_train)
 
 # save model

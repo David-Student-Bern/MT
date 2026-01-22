@@ -147,8 +147,8 @@ print(GFOC_data.head())
 
 
 csv_files = [
-    find_repo_root() / Path("Analysis/modeling/subsets_eflag.csv"),
-    find_repo_root() / Path("Analysis/modeling/subsets_meanstd.csv")
+    find_repo_root() / Path("Analysis/Subsets/subsets_eflag.csv"),
+    find_repo_root() / Path("Analysis/Subsets/subsets_meanstd.csv")
 ]
 
 intervals_df = load_intervals(csv_files)
