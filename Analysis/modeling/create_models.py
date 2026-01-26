@@ -1,6 +1,6 @@
 import os
-# os.environ["OMP_NUM_THREADS"] = "1"
-# os.environ["MKL_NUM_THREADS"] = "1"
+os.environ["OMP_NUM_THREADS"] = "4"
+os.environ["MKL_NUM_THREADS"] = "4"
 os.nice(19)
 
 import sys
@@ -64,7 +64,7 @@ if Subset:
     Subset_file = Subset_DIR / Path(Subset_name)
 # ---- model parameters ----
 model_type = 'MultiTaskLassoCV'
-model_number = 4  # just for naming purposes
+model_number = 5  # just for naming purposes
 model_name = f"{model_type}_{target}_model_{model_number}"
 if model_type == 'lasso':
     model = Lasso(alpha=0.3)
