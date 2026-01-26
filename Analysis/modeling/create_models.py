@@ -51,7 +51,7 @@ sampling_rate = '5min'
 columns_needed = ['time', 'orbital_decay', 'trend','|avg B|', 'F10.7 (LASP)', 'Bz GSE', 'Flow Speed (km/s', 'Temperature (K)', 'Kp (LASP)', 'median_decay_last_7D', 'median_decay_last_14D', 'median_decay_last_30D']
 start_time = '2023-01-01 00:00:00'
 end_time = '2024-07-01 00:00:00'
-target = 'trend'
+target = 'orbital_decay'
 # ---- forecast parameters ----
 n = 12  # hours ahead
 m = 15  # minutes steps
@@ -60,11 +60,11 @@ Subset = True  # if True, train only on interesting subsets
 if Subset:
     invert = False  # if True, train on the uninteresting times
     Subset_DIR = find_repo_root() / Path("Analysis/Subsets")
-    Subset_name = 'subsets_Kp.csv'  # 'subsets_Kp.csv'  # 'subsets_eflag.csv'  # 'subsets_meanstd.csv' # 'subsets_merged.csv'
+    Subset_name = 'subsets_merged.csv'  # 'subsets_Kp.csv'  # 'subsets_eflag.csv'  # 'subsets_meanstd.csv' # 'subsets_merged.csv'
     Subset_file = Subset_DIR / Path(Subset_name)
 # ---- model parameters ----
-model_type = 'MultiTaskLassoCV'
-model_number = 5  # just for naming purposes
+model_type = 'lasso'
+model_number = 1  # just for naming purposes
 model_name = f"{model_type}_{target}_model_{model_number}"
 if model_type == 'lasso':
     model = Lasso(alpha=0.3)
