@@ -151,17 +151,6 @@ logging.info(f"Forecast horizon: {n} hours ahead, stepsize: {m} minutes (={y_tra
 # =======================================================================================================
 # Training
 # =======================================================================================================
-scaler = StandardScaler()
-# scale and convert back to DataFrames
-X_train_scaled = pd.DataFrame(
-    scaler.fit_transform(X_train),
-    index=X_train.index,
-    columns=X_train.columns
-)
-# save scaler
-scaler_path = find_repo_root() / Path(f"Analysis/modeling/saved_models/{scaler_name}.pkl")
-joblib.dump(scaler, scaler_path)
-
 if Subset:
     intervals_df = pd.read_csv(Subset_file)
     df = GFOC_data.copy()
@@ -174,16 +163,27 @@ if Subset:
         mask = ~mask
 
     # Train only on these times
-    active_times = GFOC_data[mask].index.intersection(X_train_scaled.index)
+    active_times = GFOC_data[mask].index.intersection(X_train.index)
     logging.info(f"Training on {len(active_times)} samples of total {X_train.shape[0]} samples")
-    model.fit(
-        X_train_scaled.loc[active_times],
-        y_train.loc[active_times]
-    )
+    X_train = X_train.loc[active_times]
+    y_train = y_train.loc[active_times]
 else:
     # Train on all times
     logging.info(f"Using all training samples: {X_train.shape[0]}")
-    model.fit(X_train_scaled, y_train)
+
+scaler = StandardScaler()
+# scale and convert back to DataFrames
+X_train_scaled = pd.DataFrame(
+    scaler.fit_transform(X_train),
+    index=X_train.index,
+    columns=X_train.columns
+)
+# save scaler
+scaler_path = find_repo_root() / Path(f"Analysis/modeling/saved_models/{scaler_name}.pkl")
+joblib.dump(scaler, scaler_path)
+
+# train model
+model.fit(X_train_scaled, y_train)
 
 # save model
 model_path = find_repo_root() / Path(f"Analysis/modeling/saved_models/{model_name}.pkl")
