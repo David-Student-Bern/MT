@@ -125,7 +125,7 @@ def make_multistep_target(ts, steps, stepsize=1):
          for i in range(steps//stepsize)},
         axis=1)
 
-def aggregate_multistep_predictions(y_pred, dt_seconds, error_kind='std'):
+def aggregate_multistep_predictions(y_pred, dt_seconds, m=15, error_kind='std', test = False):
     """
     Convert y_pred (shape: origins x horizons, columns like 'y_step_1', 'y_step_46')
     to an aggregated DataFrame indexed by absolute forecast time with columns:
@@ -145,6 +145,7 @@ def aggregate_multistep_predictions(y_pred, dt_seconds, error_kind='std'):
     agg : pd.DataFrame
         index = absolute forecast timestamps; columns = ['mean','std','sem','count']
     """
+    m = int(m/dt_seconds * 60)
     pieces = []
     for col in y_pred.columns:
         # extract integer step from column name; assumes 'y_step_{k}'
@@ -154,7 +155,7 @@ def aggregate_multistep_predictions(y_pred, dt_seconds, error_kind='std'):
             raise ValueError(f"Could not parse step number from column '{col}'")
         # shift the index forward by k steps
         shifted = y_pred[col].copy()
-        shifted.index = shifted.index + pd.to_timedelta(k * dt_seconds, unit='s')
+        shifted.index = shifted.index + pd.to_timedelta(m * k * dt_seconds, unit='s')
         # keep name to help debugging, but all columns will be concatenated
         shifted.name = f'{col}'
         pieces.append(shifted)
@@ -178,5 +179,17 @@ def aggregate_multistep_predictions(y_pred, dt_seconds, error_kind='std'):
 
     # choose error column to return in the same df for easy plotting
     agg['error'] = agg['std'] if error_kind == 'std' else agg['sem']
+
+    # if test, we expect std to be zero
+    if test:
+        std_vals = agg['std'].dropna()
+
+        if not np.allclose(std_vals, 0, atol=1e-8):
+            max_std = std_vals.abs().max()
+            raise AssertionError(
+                f"In test mode, std should be ~0.\n"
+                f"Max std observed: {max_std}\n"
+                f"Check if m value is correct."
+            )
 
     return agg
