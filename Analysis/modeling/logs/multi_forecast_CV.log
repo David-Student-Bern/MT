@@ -346,3 +346,115 @@
 2026-01-24 15:57:07,248 - INFO - Scaler ID: MultiTaskLassoCV_trend_scaler_4
 2026-01-24 15:57:07,248 - INFO - Script finished: 2026-01-24 15:57:07.248197
 2026-01-24 15:57:07,248 - INFO - Elapsed time: 1 day, 3:24:23.068512
+2026-01-26 09:17:45,462 - INFO - =======================================
+2026-01-26 09:17:45,462 - INFO - Script started: 2026-01-26 09:17:45.462298
+2026-01-26 09:17:45,462 - INFO - -- Basic Settings --
+2026-01-26 09:17:45,462 - INFO - Sampling rate: 5min
+2026-01-26 09:17:45,462 - INFO - Time range: 2023-01-01 00:00:00 to 2024-07-01 00:00:00
+2026-01-26 09:17:45,462 - INFO - Subset training: True
+2026-01-26 09:17:45,462 - INFO - Invert Subset: False
+2026-01-26 09:17:45,462 - INFO - Subset name: subsets_merged.csv
+2026-01-26 09:17:46,723 - INFO - --Modeling Parameters--
+2026-01-26 09:17:46,723 - INFO - lag_config_trend: 8 different features
+2026-01-26 09:17:46,723 - INFO -     "|avg B|": 129 lags,
+2026-01-26 09:17:46,723 - INFO -     "Bz GSE": 129 lags,
+2026-01-26 09:17:46,723 - INFO -     "Temperature (K)": 129 lags,
+2026-01-26 09:17:46,724 - INFO -     "Flow Speed (km/s": 129 lags,
+2026-01-26 09:17:46,724 - INFO -     "F10.7 (LASP)": 7 lags,
+2026-01-26 09:17:46,724 - INFO -     "median_decay_last_7D": 5 lags,
+2026-01-26 09:17:46,724 - INFO -     "median_decay_last_14D": 5 lags,
+2026-01-26 09:17:46,724 - INFO -     "median_decay_last_30D": 5 lags,
+2026-01-26 09:17:46,724 - INFO - Total features: 538
+2026-01-26 09:17:46,724 - INFO - Target: orbital_decay
+2026-01-26 09:17:46,724 - INFO - Forecast horizon: 12 hours ahead, stepsize: 15 minutes (=48 steps)
+2026-01-26 09:17:47,849 - INFO - Training on 67655 samples of total 156799 samples
+2026-01-26 09:19:50,187 - INFO - -- Model Description --
+2026-01-26 09:19:50,187 - INFO - Model class: Lasso
+2026-01-26 09:19:50,188 - INFO -   alpha: 0.3
+2026-01-26 09:19:50,188 - INFO -   copy_X: True
+2026-01-26 09:19:50,188 - INFO -   fit_intercept: True
+2026-01-26 09:19:50,188 - INFO -   max_iter: 1000
+2026-01-26 09:19:50,188 - INFO -   positive: False
+2026-01-26 09:19:50,188 - INFO -   precompute: False
+2026-01-26 09:19:50,188 - INFO -   random_state: None
+2026-01-26 09:19:50,188 - INFO -   selection: cyclic
+2026-01-26 09:19:50,188 - INFO -   tol: 0.0001
+2026-01-26 09:19:50,188 - INFO -   warm_start: False
+2026-01-26 09:19:50,188 - INFO - Model ID: lasso_orbital_decay_model_1
+2026-01-26 09:19:50,188 - INFO - Scaler ID: lasso_orbital_decay_scaler_1
+2026-01-26 09:19:50,188 - INFO - Script finished: 2026-01-26 09:19:50.188687
+2026-01-26 09:19:50,188 - INFO - Elapsed time: 0:02:04.726389
+2026-01-26 09:21:02,885 - INFO - =======================================
+2026-01-26 09:21:02,885 - INFO - Script started: 2026-01-26 09:21:02.885172
+2026-01-26 09:21:02,885 - INFO - -- Basic Settings --
+2026-01-26 09:21:02,885 - INFO - Sampling rate: 5min
+2026-01-26 09:21:02,885 - INFO - Time range: 2023-01-01 00:00:00 to 2024-07-01 00:00:00
+2026-01-26 09:21:02,885 - INFO - Subset training: False
+2026-01-26 09:21:04,146 - INFO - --Modeling Parameters--
+2026-01-26 09:21:04,146 - INFO - lag_config_trend: 8 different features
+2026-01-26 09:21:04,146 - INFO -     "|avg B|": 129 lags,
+2026-01-26 09:21:04,146 - INFO -     "Bz GSE": 129 lags,
+2026-01-26 09:21:04,146 - INFO -     "Temperature (K)": 129 lags,
+2026-01-26 09:21:04,146 - INFO -     "Flow Speed (km/s": 129 lags,
+2026-01-26 09:21:04,146 - INFO -     "F10.7 (LASP)": 7 lags,
+2026-01-26 09:21:04,146 - INFO -     "median_decay_last_7D": 5 lags,
+2026-01-26 09:21:04,146 - INFO -     "median_decay_last_14D": 5 lags,
+2026-01-26 09:21:04,146 - INFO -     "median_decay_last_30D": 5 lags,
+2026-01-26 09:21:04,146 - INFO - Total features: 538
+2026-01-26 09:21:04,146 - INFO - Target: orbital_decay
+2026-01-26 09:21:04,146 - INFO - Forecast horizon: 12 hours ahead, stepsize: 15 minutes (=48 steps)
+2026-01-26 09:21:05,226 - INFO - Using all training samples: 156799
+2026-01-26 09:24:30,321 - INFO - -- Model Description --
+2026-01-26 09:24:30,322 - INFO - Model class: Lasso
+2026-01-26 09:24:30,322 - INFO -   alpha: 0.3
+2026-01-26 09:24:30,322 - INFO -   copy_X: True
+2026-01-26 09:24:30,322 - INFO -   fit_intercept: True
+2026-01-26 09:24:30,322 - INFO -   max_iter: 1000
+2026-01-26 09:24:30,322 - INFO -   positive: False
+2026-01-26 09:24:30,322 - INFO -   precompute: False
+2026-01-26 09:24:30,322 - INFO -   random_state: None
+2026-01-26 09:24:30,322 - INFO -   selection: cyclic
+2026-01-26 09:24:30,322 - INFO -   tol: 0.0001
+2026-01-26 09:24:30,322 - INFO -   warm_start: False
+2026-01-26 09:24:30,322 - INFO - Model ID: lasso_orbital_decay_model_3
+2026-01-26 09:24:30,322 - INFO - Scaler ID: lasso_orbital_decay_scaler_3
+2026-01-26 09:24:30,322 - INFO - Script finished: 2026-01-26 09:24:30.322808
+2026-01-26 09:24:30,322 - INFO - Elapsed time: 0:03:27.437636
+2026-01-26 09:37:08,068 - INFO - =======================================
+2026-01-26 09:51:22,874 - INFO - Script started: 2026-01-26 09:51:22.873744
+2026-01-26 09:51:22,874 - INFO - -- Basic Settings --
+2026-01-26 09:51:22,874 - INFO - Sampling rate: 5min
+2026-01-26 09:51:22,874 - INFO - Time range: 2023-01-01 00:00:00 to 2024-07-01 00:00:00
+2026-01-26 09:51:22,874 - INFO - Subset training: True
+2026-01-26 09:51:22,874 - INFO - Invert Subset: False
+2026-01-26 09:51:22,874 - INFO - Subset name: subsets_Kp.csv
+2026-01-26 09:51:24,138 - INFO - --Modeling Parameters--
+2026-01-26 09:51:24,139 - INFO - lag_config_trend: 8 different features
+2026-01-26 09:51:24,139 - INFO -     "|avg B|": 129 lags,
+2026-01-26 09:51:24,139 - INFO -     "Bz GSE": 129 lags,
+2026-01-26 09:51:24,139 - INFO -     "Temperature (K)": 129 lags,
+2026-01-26 09:51:24,139 - INFO -     "Flow Speed (km/s": 129 lags,
+2026-01-26 09:51:24,139 - INFO -     "F10.7 (LASP)": 7 lags,
+2026-01-26 09:51:24,139 - INFO -     "median_decay_last_7D": 5 lags,
+2026-01-26 09:51:24,139 - INFO -     "median_decay_last_14D": 5 lags,
+2026-01-26 09:51:24,139 - INFO -     "median_decay_last_30D": 5 lags,
+2026-01-26 09:51:24,139 - INFO - Total features: 538
+2026-01-26 09:51:24,139 - INFO - Target: orbital_decay
+2026-01-26 09:51:24,139 - INFO - Forecast horizon: 12 hours ahead, stepsize: 15 minutes (=48 steps)
+2026-01-26 09:51:25,275 - INFO - Training on 28512 samples of total 156799 samples
+2026-01-26 09:52:40,996 - INFO - -- Model Description --
+2026-01-26 09:52:40,997 - INFO - Model class: Lasso
+2026-01-26 09:52:40,997 - INFO -   alpha: 0.3
+2026-01-26 09:52:40,997 - INFO -   copy_X: True
+2026-01-26 09:52:40,997 - INFO -   fit_intercept: True
+2026-01-26 09:52:40,997 - INFO -   max_iter: 1000
+2026-01-26 09:52:40,997 - INFO -   positive: False
+2026-01-26 09:52:40,997 - INFO -   precompute: False
+2026-01-26 09:52:40,997 - INFO -   random_state: None
+2026-01-26 09:52:40,997 - INFO -   selection: cyclic
+2026-01-26 09:52:40,997 - INFO -   tol: 0.0001
+2026-01-26 09:52:40,997 - INFO -   warm_start: False
+2026-01-26 09:52:40,997 - INFO - Model ID: lasso_orbital_decay_model_4
+2026-01-26 09:52:40,997 - INFO - Scaler ID: lasso_orbital_decay_scaler_4
+2026-01-26 09:52:40,997 - INFO - Script finished: 2026-01-26 09:52:40.997887
+2026-01-26 09:52:40,997 - INFO - Elapsed time: 0:01:18.124143

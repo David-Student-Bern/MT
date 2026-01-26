@@ -60,11 +60,11 @@ Subset = True  # if True, train only on interesting subsets
 if Subset:
     invert = False  # if True, train on the uninteresting times
     Subset_DIR = find_repo_root() / Path("Analysis/Subsets")
-    Subset_name = 'subsets_merged.csv'  # 'subsets_Kp.csv'  # 'subsets_eflag.csv'  # 'subsets_meanstd.csv' # 'subsets_merged.csv'
+    Subset_name = 'subsets_Kp.csv'  # 'subsets_Kp.csv'  # 'subsets_eflag.csv'  # 'subsets_meanstd.csv' # 'subsets_merged.csv'
     Subset_file = Subset_DIR / Path(Subset_name)
 # ---- model parameters ----
 model_type = 'lasso'
-model_number = 1  # just for naming purposes
+model_number = 4  # just for naming purposes
 model_name = f"{model_type}_{target}_model_{model_number}"
 if model_type == 'lasso':
     model = Lasso(alpha=0.3)
