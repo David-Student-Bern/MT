@@ -64,7 +64,7 @@ Subset = True  # if True, train only on interesting subsets
 if Subset:
     invert = False  # if True, train on the uninteresting times
     Subset_DIR = find_repo_root() / Path("Analysis/Subsets")
-    Subset_name = 'subsets_Kp.csv'  # 'subsets_Kp.csv'  # 'subsets_eflag.csv'  # 'subsets_meanstd.csv' # 'subsets_merged.csv'
+    Subset_name = 'subsets_Kp.csv'  # 'subsets_Kp.csv'  # 'subsets_eflag.csv'  # 'subsets_meanstd.csv' # 'subsets_merged.csv' # 'subsets_eflag_meanstd.csv'
     Subset_file = Subset_DIR / Path(Subset_name)
 # ---- model parameters ----
 model_type = 'MultiTaskLasso'
@@ -131,11 +131,12 @@ if Subset:
     # Test only on these times
     active_test = GFOC_data[mask].index.intersection(X_test.index)
     logging.info(f"Testing on {len(active_test)} samples of total {X_test.shape[0]} samples")
-    X_test = X_test.loc[active_test]
-    y_test = y_test.loc[active_test]
+    # X_test = X_test.loc[active_test]
+    # y_test = y_test.loc[active_test]
 else:
     # Train on all times
     logging.info(f"Using all training samples: {X_train.shape[0]}")
+    active_test = None
 
 # =======================================================================================================
 # Logging modeling parameters
@@ -159,10 +160,9 @@ logging.info(f"Forecast horizon: {n} hours ahead, stepsize: {m} minutes (={y_tra
 # =======================================================================================================
 # Training Function
 # =======================================================================================================
-def tscv_evaluate(X, Y, X_test, Y_test, alpha, tscv, pipeline_name):
+def tscv_evaluate(X, Y, X_test, Y_test, alpha, tscv, pipeline_name, active_test=None):
     train_scores = []
     val_scores = []
-    log_start_time = datetime.now()
 
     for i, (train_idx, val_idx) in enumerate(tscv.split(X), start=1):
         logging.info(f"Start with {i}th training")
@@ -179,8 +179,7 @@ def tscv_evaluate(X, Y, X_test, Y_test, alpha, tscv, pipeline_name):
                 alpha=alpha,
                 max_iter=20000,
                 warm_start=True,
-                selection="random",
-                n_jobs=32
+                selection="random"
             ))
         ])
 
@@ -202,8 +201,7 @@ def tscv_evaluate(X, Y, X_test, Y_test, alpha, tscv, pipeline_name):
             alpha=alpha,
             max_iter=20000,
             warm_start=True,
-            selection="random",
-            n_jobs=32
+            selection="random"
         ))
     ])
     logging.info("Start with final training")
@@ -214,8 +212,6 @@ def tscv_evaluate(X, Y, X_test, Y_test, alpha, tscv, pipeline_name):
     joblib.dump(final_model, pipeline_path)
 
     logging.info(f"Finished after {datetime.now() - start_time}")
-
-    test_score = r2_score(Y_test, final_model.predict(X_test))
 
     # logging pipeline info
     logging.info("-- Final Model Description --")
@@ -229,16 +225,30 @@ def tscv_evaluate(X, Y, X_test, Y_test, alpha, tscv, pipeline_name):
         logging.info("  No parameters available")
     logging.info(f"Model ID: {pipeline_name}")
 
-    return {
-        "train_mean": np.mean(train_scores),
-        "val_mean": np.mean(val_scores),
-        "test": test_score
-    }
+    if active_test is not None:
+        test_score_all = r2_score(Y_test, final_model.predict(X_test))
+        test_score_sub = r2_score(Y_test.loc[active_test], final_model.predict(X_test.loc[active_test]))
+        test_score_inv = r2_score(Y_test.loc[~active_test], final_model.predict(X_test.loc[~active_test]))
+        return {
+            "train_mean": np.mean(train_scores),
+            "val_mean": np.mean(val_scores),
+            "test_all": test_score_all,
+            "test_sub": test_score_sub,
+            "test_inv": test_score_inv
+        }
+    else:
+        test_score = r2_score(Y_test, final_model.predict(X_test))
+
+        return {
+            "train_mean": np.mean(train_scores),
+            "val_mean": np.mean(val_scores),
+            "test": test_score
+        }
 
 # =======================================================================================================
 # Training
 # =======================================================================================================
-alpha_weak = 0.02    # near Model 3 optimum
+alpha_weak = 0.03    # near Model 3 optimum
 alpha_strong = 0.2 # strong regularization
 
 tscv_weak = TimeSeriesSplit(
@@ -258,7 +268,8 @@ results_weak = tscv_evaluate(
     X_test, y_test,
     alpha=alpha_weak,
     tscv=tscv_weak,
-    pipeline_name = f"tscv_{model_type}_{target}_pipeline_weak_{model_number}"
+    pipeline_name = f"tscv_{model_type}_{target}_pipeline_weak_{model_number}",
+    active_test=active_test
 )
 
 logging.info(f"Strong Regularization α={alpha_strong}, TSCV splits={tscv_strong.get_n_splits()}")
@@ -267,13 +278,18 @@ results_strong = tscv_evaluate(
     X_test, y_test,
     alpha=alpha_strong,
     tscv=tscv_strong,
-    pipeline_name = f"tscv_{model_type}_{target}_pipeline_strong_{model_number}"
+    pipeline_name = f"tscv_{model_type}_{target}_pipeline_strong_{model_number}",
+    active_test=active_test
 )
 
 # log results
 logging.info("-- Training Results --")
-logging.info(f"Weak Reg (α={alpha_weak}): Train R²: {results_weak['train_mean']:.4f}, Val R²: {results_weak['val_mean']:.4f}, Test R²: {results_weak['test']:.4f}")
-logging.info(f"Strong Reg (α={alpha_strong}): Train R²: {results_strong['train_mean']:.4f}, Val R²: {results_strong['val_mean']:.4f}, Test R²: {results_strong['test']:.4f}")
+if Subset:
+    logging.info(f"Weak Reg (α={alpha_weak}):\n   Train R²: {results_weak['train_mean']:.4f},\n   Val R²: {results_weak['val_mean']:.4f},\n   Test R² (all): {results_weak['test_all']:.4f},\n   Test R² (subset): {results_weak['test_sub']:.4f},\n   Test R² (inverse): {results_weak['test_inv']:.4f}")
+    logging.info(f"Strong Reg (α={alpha_strong}):\n   Train R²: {results_strong['train_mean']:.4f},\n   Val R²: {results_strong['val_mean']:.4f},\n   Test R² (all): {results_strong['test_all']:.4f},\n   Test R² (subset): {results_strong['test_sub']:.4f},\n   Test R² (inverse): {results_strong['test_inv']:.4f}")
+else:
+    logging.info(f"Weak Reg (α={alpha_weak}):\n   Train R²: {results_weak['train_mean']:.4f},\n   Val R²: {results_weak['val_mean']:.4f},\n   Test R²: {results_weak['test']:.4f}")
+    logging.info(f"Strong Reg (α={alpha_strong}):\n   Train R²: {results_strong['train_mean']:.4f},\n   Val R²: {results_strong['val_mean']:.4f},\n   Test R²: {results_strong['test']:.4f}")
 
 
 # === End timing ===
