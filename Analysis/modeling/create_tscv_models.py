@@ -1,7 +1,7 @@
 import os
-# os.environ["OMP_NUM_THREADS"] = "4"
-# os.environ["MKL_NUM_THREADS"] = "4"
-os.nice(19)
+os.environ["OMP_NUM_THREADS"] = "20"
+os.environ["MKL_NUM_THREADS"] = "20"
+# os.nice(19)
 
 import sys
 from pathlib import Path
@@ -64,11 +64,11 @@ Subset = True  # if True, train only on interesting subsets
 if Subset:
     invert = False  # if True, train on the uninteresting times
     Subset_DIR = find_repo_root() / Path("Analysis/Subsets")
-    Subset_name = 'subsets_Kp.csv'  # 'subsets_Kp.csv'  # 'subsets_eflag.csv'  # 'subsets_meanstd.csv' # 'subsets_merged.csv' # 'subsets_eflag_meanstd.csv'
+    Subset_name = 'subsets_eflag_meanstd.csv'  # 'subsets_Kp.csv'  # 'subsets_eflag.csv'  # 'subsets_meanstd.csv' # 'subsets_merged.csv' # 'subsets_eflag_meanstd.csv'
     Subset_file = Subset_DIR / Path(Subset_name)
 # ---- model parameters ----
 model_type = 'MultiTaskLasso'
-model_number = 1  # just for naming purposes
+model_number = '1'  # just for naming purposes
 
 # logging settings
 logging.info("-- Basic Settings --")
@@ -136,6 +136,7 @@ if Subset:
 else:
     # Train on all times
     logging.info(f"Using all training samples: {X_train.shape[0]}")
+    logging.info(f"Using all testing samples: {X_test.shape[0]}")
     active_test = None
 
 # =======================================================================================================
@@ -151,8 +152,8 @@ summary = (
 # log modeling parameters
 logging.info("--Modeling Parameters--")
 logging.info(f"lag_config_trend: {len(summary)} different features")
-for feature, n in summary.itertuples(index=False):
-    logging.info(f'    "{feature}": {n} lags,')
+for feature, k in summary.itertuples(index=False):
+    logging.info(f'    "{feature}": {k} lags,')
 logging.info(f"Total features: {X_train.shape[1]}")
 logging.info(f"Target: {target}")
 logging.info(f"Forecast horizon: {n} hours ahead, stepsize: {m} minutes (={y_train.shape[1]} steps)")
@@ -161,6 +162,7 @@ logging.info(f"Forecast horizon: {n} hours ahead, stepsize: {m} minutes (={y_tra
 # Training Function
 # =======================================================================================================
 def tscv_evaluate(X, Y, X_test, Y_test, alpha, tscv, pipeline_name, active_test=None):
+    training_start_time = datetime.now()
     train_scores = []
     val_scores = []
 
@@ -212,6 +214,7 @@ def tscv_evaluate(X, Y, X_test, Y_test, alpha, tscv, pipeline_name, active_test=
     joblib.dump(final_model, pipeline_path)
 
     logging.info(f"Finished after {datetime.now() - start_time}")
+    logging.info(f"Total training time: {datetime.now() - training_start_time}")
 
     # logging pipeline info
     logging.info("-- Final Model Description --")
@@ -226,9 +229,10 @@ def tscv_evaluate(X, Y, X_test, Y_test, alpha, tscv, pipeline_name, active_test=
     logging.info(f"Model ID: {pipeline_name}")
 
     if active_test is not None:
+        active_mask = X_test.index.isin(active_test)
         test_score_all = r2_score(Y_test, final_model.predict(X_test))
-        test_score_sub = r2_score(Y_test.loc[active_test], final_model.predict(X_test.loc[active_test]))
-        test_score_inv = r2_score(Y_test.loc[~active_test], final_model.predict(X_test.loc[~active_test]))
+        test_score_sub = r2_score(Y_test.loc[active_mask], final_model.predict(X_test.loc[active_mask]))
+        test_score_inv = r2_score(Y_test.loc[~active_mask], final_model.predict(X_test.loc[~active_mask]))
         return {
             "train_mean": np.mean(train_scores),
             "val_mean": np.mean(val_scores),
@@ -248,11 +252,11 @@ def tscv_evaluate(X, Y, X_test, Y_test, alpha, tscv, pipeline_name, active_test=
 # =======================================================================================================
 # Training
 # =======================================================================================================
-alpha_weak = 0.03    # near Model 3 optimum
-alpha_strong = 0.2 # strong regularization
+alpha_weak = 0.05    # near Model 3 optimum
+alpha_strong = 0.075 # strong regularization
 
 tscv_weak = TimeSeriesSplit(
-    n_splits=3,
+    n_splits=5,
     test_size=None  # expanding window
 )
 
@@ -262,23 +266,25 @@ tscv_strong = TimeSeriesSplit(
 )
 
 logging.info("== Training with Time Series Cross-Validation ==")
-logging.info(f"Weak Regularization α={alpha_weak}, TSCV splits={tscv_weak.get_n_splits()}")
+logging.info(f"-- Weak Regularization α={alpha_weak}, TSCV splits={tscv_weak.get_n_splits()} --")
+alpha_str = str(alpha_weak).replace('.', 'p')
 results_weak = tscv_evaluate(
     X_train, y_train,
     X_test, y_test,
     alpha=alpha_weak,
     tscv=tscv_weak,
-    pipeline_name = f"tscv_{model_type}_{target}_pipeline_weak_{model_number}",
+    pipeline_name = f"tscv_{model_type}_{target}_pipeline_{alpha_str}_{model_number}",
     active_test=active_test
 )
 
-logging.info(f"Strong Regularization α={alpha_strong}, TSCV splits={tscv_strong.get_n_splits()}")
+logging.info(f"-- Strong Regularization α={alpha_strong}, TSCV splits={tscv_strong.get_n_splits()} --")
+alpha_str = str(alpha_strong).replace('.', 'p')
 results_strong = tscv_evaluate(
     X_train, y_train,
     X_test, y_test,
     alpha=alpha_strong,
     tscv=tscv_strong,
-    pipeline_name = f"tscv_{model_type}_{target}_pipeline_strong_{model_number}",
+    pipeline_name = f"tscv_{model_type}_{target}_pipeline_{alpha_str}_{model_number}",
     active_test=active_test
 )
 
