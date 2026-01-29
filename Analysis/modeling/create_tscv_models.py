@@ -64,11 +64,11 @@ Subset = True  # if True, train only on interesting subsets
 if Subset:
     invert = False  # if True, train on the uninteresting times
     Subset_DIR = find_repo_root() / Path("Analysis/Subsets")
-    Subset_name = 'subsets_eflag_meanstd.csv'  # 'subsets_Kp.csv'  # 'subsets_eflag.csv'  # 'subsets_meanstd.csv' # 'subsets_merged.csv' # 'subsets_eflag_meanstd.csv'
+    Subset_name = 'subsets_Kp.csv'  # 'subsets_Kp.csv'  # 'subsets_eflag.csv'  # 'subsets_meanstd.csv' # 'subsets_merged.csv' # 'subsets_eflag_meanstd.csv'
     Subset_file = Subset_DIR / Path(Subset_name)
 # ---- model parameters ----
 model_type = 'MultiTaskLasso'
-model_number = '1'  # just for naming purposes
+model_number = '4'  # just for naming purposes
 
 # logging settings
 logging.info("-- Basic Settings --")
@@ -252,8 +252,8 @@ def tscv_evaluate(X, Y, X_test, Y_test, alpha, tscv, pipeline_name, active_test=
 # =======================================================================================================
 # Training
 # =======================================================================================================
-alpha_weak = 0.05    # near Model 3 optimum
-alpha_strong = 0.075 # strong regularization
+alpha_weak = 0.1    # near Model 3 optimum
+alpha_strong = 0.5 # strong regularization
 
 tscv_weak = TimeSeriesSplit(
     n_splits=5,
