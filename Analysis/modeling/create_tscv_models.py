@@ -252,8 +252,8 @@ def tscv_evaluate(X, Y, X_test, Y_test, alpha, tscv, pipeline_name, active_test=
 # =======================================================================================================
 # Training
 # =======================================================================================================
-alpha_weak = 0.1    # near Model 3 optimum
-alpha_strong = 0.5 # strong regularization
+alpha_weak = 0.02    # near Model 3 optimum
+alpha_strong = 0.05 # strong regularization
 
 tscv_weak = TimeSeriesSplit(
     n_splits=5,

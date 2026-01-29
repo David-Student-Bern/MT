@@ -1065,3 +1065,196 @@
 2026-01-29 17:36:11,744 - INFO - Start with 5th training
 2026-01-29 17:36:11,813 - INFO - X_train time: 2023-01-14 21:00:00 to 2024-05-02 14:55:00
 2026-01-29 17:36:11,814 - INFO - X_val time: 2024-05-02 15:00:00 to 2024-06-29 20:55:00
+2026-01-29 17:37:51,633 - INFO - Finished after 0:01:39.888132
+2026-01-29 17:37:51,633 - INFO - Start with final training
+2026-01-29 17:39:10,087 - INFO - Finished after 0:01:18.453615
+2026-01-29 17:39:10,087 - INFO - Total training time: 0:07:07.027565
+2026-01-29 17:39:10,087 - INFO - -- Final Model Description --
+2026-01-29 17:39:10,087 - INFO - Model class: Pipeline
+2026-01-29 17:39:10,088 - INFO -   memory: None
+2026-01-29 17:39:10,088 - INFO -   steps: [('scaler', StandardScaler()), ('lasso', MultiTaskLasso(alpha=5.0, max_iter=20000, selection='random', warm_start=True))]
+2026-01-29 17:39:10,089 - INFO -   verbose: False
+2026-01-29 17:39:10,089 - INFO -   scaler: StandardScaler()
+2026-01-29 17:39:10,089 - INFO -   lasso: MultiTaskLasso(alpha=5.0, max_iter=20000, selection='random', warm_start=True)
+2026-01-29 17:39:10,089 - INFO -   scaler__copy: True
+2026-01-29 17:39:10,089 - INFO -   scaler__with_mean: True
+2026-01-29 17:39:10,090 - INFO -   scaler__with_std: True
+2026-01-29 17:39:10,090 - INFO -   lasso__alpha: 5.0
+2026-01-29 17:39:10,090 - INFO -   lasso__copy_X: True
+2026-01-29 17:39:10,090 - INFO -   lasso__fit_intercept: True
+2026-01-29 17:39:10,090 - INFO -   lasso__max_iter: 20000
+2026-01-29 17:39:10,090 - INFO -   lasso__random_state: None
+2026-01-29 17:39:10,090 - INFO -   lasso__selection: random
+2026-01-29 17:39:10,090 - INFO -   lasso__tol: 0.0001
+2026-01-29 17:39:10,090 - INFO -   lasso__warm_start: True
+2026-01-29 17:39:10,091 - INFO - Model ID: tscv_MultiTaskLasso_trend_pipeline_5p0_4
+2026-01-29 17:39:10,880 - INFO - -- Training Results --
+2026-01-29 17:39:10,880 - INFO - Weak Reg (α=1.0):
+   Train R²: 0.8048,
+   Val R²: 0.0094,
+   Test R² (all): 0.2688,
+   Test R² (subset): 0.5482,
+   Test R² (inverse): 0.0825
+2026-01-29 17:39:10,880 - INFO - Strong Reg (α=5.0):
+   Train R²: 0.7235,
+   Val R²: -0.1846,
+   Test R² (all): 0.4486,
+   Test R² (subset): 0.5795,
+   Test R² (inverse): 0.3592
+2026-01-29 17:39:10,880 - INFO - Script finished: 2026-01-29 17:39:10.880679
+2026-01-29 17:39:10,880 - INFO - Elapsed time: 0:17:39.605419
+2026-01-29 17:39:23,217 - INFO - =======================================
+2026-01-29 17:39:23,218 - INFO - Script started: 2026-01-29 17:39:23.217862
+2026-01-29 17:39:23,218 - INFO - -- Basic Settings --
+2026-01-29 17:39:23,218 - INFO - Sampling rate: 5min
+2026-01-29 17:39:23,218 - INFO - Training Time range: 2023-01-01 00:00:00 to 2024-07-01 00:00:00
+2026-01-29 17:39:23,218 - INFO - Testing Time range: 2024-07-24 00:00:00 to 2025-01-01 00:00:00
+2026-01-29 17:39:23,218 - INFO - Subset training: True
+2026-01-29 17:39:23,218 - INFO - Invert Subset: False
+2026-01-29 17:39:23,218 - INFO - Subset name: subsets_Kp.csv
+2026-01-29 17:39:24,495 - INFO - Training on 28512 samples of total 156943 samples
+2026-01-29 17:39:24,591 - INFO - Testing on 10692 samples of total 46224 samples
+2026-01-29 17:39:24,595 - INFO - --Modeling Parameters--
+2026-01-29 17:39:24,595 - INFO - lag_config_trend: 8 different features
+2026-01-29 17:39:24,596 - INFO -     "|avg B|": 129 lags,
+2026-01-29 17:39:24,596 - INFO -     "Bz GSE": 129 lags,
+2026-01-29 17:39:24,596 - INFO -     "Temperature (K)": 129 lags,
+2026-01-29 17:39:24,596 - INFO -     "Flow Speed (km/s": 129 lags,
+2026-01-29 17:39:24,596 - INFO -     "F10.7 (LASP)": 7 lags,
+2026-01-29 17:39:24,596 - INFO -     "median_decay_last_7D": 5 lags,
+2026-01-29 17:39:24,596 - INFO -     "median_decay_last_14D": 5 lags,
+2026-01-29 17:39:24,596 - INFO -     "median_decay_last_30D": 5 lags,
+2026-01-29 17:39:24,596 - INFO - Total features: 538
+2026-01-29 17:39:24,596 - INFO - Target: trend
+2026-01-29 17:39:24,596 - INFO - Forecast horizon: 12 hours ahead, stepsize: 15 minutes (=48 steps)
+2026-01-29 17:39:24,597 - INFO - == Training with Time Series Cross-Validation ==
+2026-01-29 17:39:24,597 - INFO - -- Weak Regularization α=0.1, TSCV splits=5 --
+2026-01-29 17:39:24,597 - INFO - Start with 1th training
+2026-01-29 17:39:24,622 - INFO - X_train time: 2023-01-14 21:00:00 to 2023-03-31 20:55:00
+2026-01-29 17:39:24,622 - INFO - X_val time: 2023-04-22 15:00:00 to 2023-06-24 14:55:00
+2026-01-29 17:43:13,022 - INFO - Finished after 0:03:48.425115
+2026-01-29 17:43:13,023 - INFO - Start with 2th training
+2026-01-29 17:43:13,052 - INFO - X_train time: 2023-01-14 21:00:00 to 2023-06-24 14:55:00
+2026-01-29 17:43:13,052 - INFO - X_val time: 2023-06-24 15:00:00 to 2023-10-04 20:55:00
+2026-01-29 17:52:24,890 - INFO - Finished after 0:09:11.866392
+2026-01-29 17:52:24,890 - INFO - Start with 3th training
+2026-01-29 17:52:24,941 - INFO - X_train time: 2023-01-14 21:00:00 to 2023-10-04 20:55:00
+2026-01-29 17:52:24,942 - INFO - X_val time: 2023-10-04 21:00:00 to 2023-12-03 02:55:00
+2026-01-29 18:51:37,650 - INFO - Finished after 0:59:12.759763
+2026-01-29 18:51:37,651 - INFO - Start with 4th training
+2026-01-29 18:51:37,708 - INFO - X_train time: 2023-01-14 21:00:00 to 2023-12-03 02:55:00
+2026-01-29 18:51:37,708 - INFO - X_val time: 2023-12-16 12:00:00 to 2024-05-02 14:55:00
+2026-01-29 19:05:01,698 - INFO - Finished after 0:13:24.047076
+2026-01-29 19:05:01,698 - INFO - Start with 5th training
+2026-01-29 19:05:01,767 - INFO - X_train time: 2023-01-14 21:00:00 to 2024-05-02 14:55:00
+2026-01-29 19:05:01,768 - INFO - X_val time: 2024-05-02 15:00:00 to 2024-06-29 20:55:00
+2026-01-29 19:13:54,620 - INFO - Finished after 0:08:52.921858
+2026-01-29 19:13:54,621 - INFO - Start with final training
+2026-01-29 19:22:57,475 - INFO - Finished after 0:09:02.854531
+2026-01-29 19:22:57,475 - INFO - Total training time: 1:43:32.878774
+2026-01-29 19:22:57,476 - INFO - -- Final Model Description --
+2026-01-29 19:22:57,476 - INFO - Model class: Pipeline
+2026-01-29 19:22:57,476 - INFO -   memory: None
+2026-01-29 19:22:57,481 - INFO -   steps: [('scaler', StandardScaler()), ('lasso', MultiTaskLasso(alpha=0.1, max_iter=20000, selection='random', warm_start=True))]
+2026-01-29 19:22:57,481 - INFO -   verbose: False
+2026-01-29 19:22:57,481 - INFO -   scaler: StandardScaler()
+2026-01-29 19:22:57,481 - INFO -   lasso: MultiTaskLasso(alpha=0.1, max_iter=20000, selection='random', warm_start=True)
+2026-01-29 19:22:57,481 - INFO -   scaler__copy: True
+2026-01-29 19:22:57,482 - INFO -   scaler__with_mean: True
+2026-01-29 19:22:57,482 - INFO -   scaler__with_std: True
+2026-01-29 19:22:57,482 - INFO -   lasso__alpha: 0.1
+2026-01-29 19:22:57,482 - INFO -   lasso__copy_X: True
+2026-01-29 19:22:57,482 - INFO -   lasso__fit_intercept: True
+2026-01-29 19:22:57,482 - INFO -   lasso__max_iter: 20000
+2026-01-29 19:22:57,482 - INFO -   lasso__random_state: None
+2026-01-29 19:22:57,482 - INFO -   lasso__selection: random
+2026-01-29 19:22:57,482 - INFO -   lasso__tol: 0.0001
+2026-01-29 19:22:57,482 - INFO -   lasso__warm_start: True
+2026-01-29 19:22:57,482 - INFO - Model ID: tscv_MultiTaskLasso_trend_pipeline_0p1_4
+2026-01-29 19:22:58,219 - INFO - -- Strong Regularization α=0.5, TSCV splits=5 --
+2026-01-29 19:22:58,220 - INFO - Start with 1th training
+2026-01-29 19:22:58,245 - INFO - X_train time: 2023-01-14 21:00:00 to 2023-03-31 20:55:00
+2026-01-29 19:22:58,245 - INFO - X_val time: 2023-04-22 15:00:00 to 2023-06-24 14:55:00
+2026-01-29 19:24:35,420 - INFO - Finished after 0:01:37.199617
+2026-01-29 19:24:35,420 - INFO - Start with 2th training
+2026-01-29 19:24:35,446 - INFO - X_train time: 2023-01-14 21:00:00 to 2023-06-24 14:55:00
+2026-01-29 19:24:35,446 - INFO - X_val time: 2023-06-24 15:00:00 to 2023-10-04 20:55:00
+2026-01-29 19:28:09,498 - INFO - Finished after 0:03:34.078322
+2026-01-29 19:28:09,499 - INFO - Start with 3th training
+2026-01-29 19:28:09,549 - INFO - X_train time: 2023-01-14 21:00:00 to 2023-10-04 20:55:00
+2026-01-29 19:28:09,549 - INFO - X_val time: 2023-10-04 21:00:00 to 2023-12-03 02:55:00
+2026-01-29 19:29:58,129 - INFO - Finished after 0:01:48.630354
+2026-01-29 19:29:58,130 - INFO - Start with 4th training
+2026-01-29 19:29:58,185 - INFO - X_train time: 2023-01-14 21:00:00 to 2023-12-03 02:55:00
+2026-01-29 19:29:58,185 - INFO - X_val time: 2023-12-16 12:00:00 to 2024-05-02 14:55:00
+2026-01-29 19:31:54,928 - INFO - Finished after 0:01:56.798363
+2026-01-29 19:31:54,928 - INFO - Start with 5th training
+2026-01-29 19:31:54,993 - INFO - X_train time: 2023-01-14 21:00:00 to 2024-05-02 14:55:00
+2026-01-29 19:31:54,993 - INFO - X_val time: 2024-05-02 15:00:00 to 2024-06-29 20:55:00
+2026-01-29 19:34:01,894 - INFO - Finished after 0:02:06.965125
+2026-01-29 19:34:01,894 - INFO - Start with final training
+2026-01-29 19:36:30,172 - INFO - Finished after 0:02:28.277372
+2026-01-29 19:36:30,172 - INFO - Total training time: 0:13:31.952088
+2026-01-29 19:36:30,172 - INFO - -- Final Model Description --
+2026-01-29 19:36:30,172 - INFO - Model class: Pipeline
+2026-01-29 19:36:30,172 - INFO -   memory: None
+2026-01-29 19:36:30,173 - INFO -   steps: [('scaler', StandardScaler()), ('lasso', MultiTaskLasso(alpha=0.5, max_iter=20000, selection='random', warm_start=True))]
+2026-01-29 19:36:30,173 - INFO -   verbose: False
+2026-01-29 19:36:30,173 - INFO -   scaler: StandardScaler()
+2026-01-29 19:36:30,173 - INFO -   lasso: MultiTaskLasso(alpha=0.5, max_iter=20000, selection='random', warm_start=True)
+2026-01-29 19:36:30,173 - INFO -   scaler__copy: True
+2026-01-29 19:36:30,173 - INFO -   scaler__with_mean: True
+2026-01-29 19:36:30,173 - INFO -   scaler__with_std: True
+2026-01-29 19:36:30,173 - INFO -   lasso__alpha: 0.5
+2026-01-29 19:36:30,173 - INFO -   lasso__copy_X: True
+2026-01-29 19:36:30,174 - INFO -   lasso__fit_intercept: True
+2026-01-29 19:36:30,174 - INFO -   lasso__max_iter: 20000
+2026-01-29 19:36:30,174 - INFO -   lasso__random_state: None
+2026-01-29 19:36:30,174 - INFO -   lasso__selection: random
+2026-01-29 19:36:30,174 - INFO -   lasso__tol: 0.0001
+2026-01-29 19:36:30,174 - INFO -   lasso__warm_start: True
+2026-01-29 19:36:30,174 - INFO - Model ID: tscv_MultiTaskLasso_trend_pipeline_0p5_4
+2026-01-29 19:36:30,875 - INFO - -- Training Results --
+2026-01-29 19:36:30,875 - INFO - Weak Reg (α=0.1):
+   Train R²: 0.8423,
+   Val R²: 0.1452,
+   Test R² (all): 0.4395,
+   Test R² (subset): 0.6282,
+   Test R² (inverse): 0.3133
+2026-01-29 19:36:30,876 - INFO - Strong Reg (α=0.5):
+   Train R²: 0.8210,
+   Val R²: 0.1463,
+   Test R² (all): 0.2810,
+   Test R² (subset): 0.5689,
+   Test R² (inverse): 0.0894
+2026-01-29 19:36:30,876 - INFO - Script finished: 2026-01-29 19:36:30.876096
+2026-01-29 19:36:30,876 - INFO - Elapsed time: 1:57:07.658234
+2026-01-29 22:24:37,307 - INFO - =======================================
+2026-01-29 22:24:37,307 - INFO - Script started: 2026-01-29 22:24:37.307264
+2026-01-29 22:24:37,307 - INFO - -- Basic Settings --
+2026-01-29 22:24:37,308 - INFO - Sampling rate: 5min
+2026-01-29 22:24:37,308 - INFO - Training Time range: 2023-01-01 00:00:00 to 2024-07-01 00:00:00
+2026-01-29 22:24:37,308 - INFO - Testing Time range: 2024-07-24 00:00:00 to 2025-01-01 00:00:00
+2026-01-29 22:24:37,308 - INFO - Subset training: True
+2026-01-29 22:24:37,308 - INFO - Invert Subset: False
+2026-01-29 22:24:37,308 - INFO - Subset name: subsets_Kp.csv
+2026-01-29 22:24:38,613 - INFO - Training on 28512 samples of total 156943 samples
+2026-01-29 22:24:38,714 - INFO - Testing on 10692 samples of total 46224 samples
+2026-01-29 22:24:38,718 - INFO - --Modeling Parameters--
+2026-01-29 22:24:38,718 - INFO - lag_config_trend: 8 different features
+2026-01-29 22:24:38,719 - INFO -     "|avg B|": 129 lags,
+2026-01-29 22:24:38,719 - INFO -     "Bz GSE": 129 lags,
+2026-01-29 22:24:38,719 - INFO -     "Temperature (K)": 129 lags,
+2026-01-29 22:24:38,719 - INFO -     "Flow Speed (km/s": 129 lags,
+2026-01-29 22:24:38,719 - INFO -     "F10.7 (LASP)": 7 lags,
+2026-01-29 22:24:38,719 - INFO -     "median_decay_last_7D": 5 lags,
+2026-01-29 22:24:38,719 - INFO -     "median_decay_last_14D": 5 lags,
+2026-01-29 22:24:38,719 - INFO -     "median_decay_last_30D": 5 lags,
+2026-01-29 22:24:38,719 - INFO - Total features: 538
+2026-01-29 22:24:38,719 - INFO - Target: trend
+2026-01-29 22:24:38,720 - INFO - Forecast horizon: 12 hours ahead, stepsize: 15 minutes (=48 steps)
+2026-01-29 22:24:38,720 - INFO - == Training with Time Series Cross-Validation ==
+2026-01-29 22:24:38,720 - INFO - -- Weak Regularization α=0.02, TSCV splits=5 --
+2026-01-29 22:24:38,720 - INFO - Start with 1th training
+2026-01-29 22:24:38,747 - INFO - X_train time: 2023-01-14 21:00:00 to 2023-03-31 20:55:00
+2026-01-29 22:24:38,747 - INFO - X_val time: 2023-04-22 15:00:00 to 2023-06-24 14:55:00
