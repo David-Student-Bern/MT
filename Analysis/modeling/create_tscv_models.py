@@ -49,7 +49,7 @@ logging.info(f"Script started: {log_start_time}")
 # =======================================================================================================
 # Settings
 # =======================================================================================================
-sampling_rate = '5min'
+sampling_rate = '1min'
 columns_needed = ['time', 'orbital_decay', 'trend','|avg B|', 'F10.7 (LASP)', 'Bz GSE', 'Flow Speed (km/s', 'Temperature (K)', 'Kp (LASP)', 'median_decay_last_7D', 'median_decay_last_14D', 'median_decay_last_30D']
 train_start_time = '2023-01-01 00:00:00'
 train_end_time = '2024-07-01 00:00:00'
@@ -68,7 +68,9 @@ if Subset:
     Subset_file = Subset_DIR / Path(Subset_name)
 # ---- model parameters ----
 model_type = 'MultiTaskLasso'
-model_number = '4'  # just for naming purposes
+model_number = '14'  # just for naming purposes
+alpha_weak = 0.05
+alpha_strong = 0.1
 
 # logging settings
 logging.info("-- Basic Settings --")
@@ -252,9 +254,6 @@ def tscv_evaluate(X, Y, X_test, Y_test, alpha, tscv, pipeline_name, active_test=
 # =======================================================================================================
 # Training
 # =======================================================================================================
-alpha_weak = 0.02    # near Model 3 optimum
-alpha_strong = 0.05 # strong regularization
-
 tscv_weak = TimeSeriesSplit(
     n_splits=5,
     test_size=None  # expanding window
@@ -291,12 +290,11 @@ results_strong = tscv_evaluate(
 # log results
 logging.info("-- Training Results --")
 if Subset:
-    logging.info(f"Weak Reg (α={alpha_weak}):\n   Train R²: {results_weak['train_mean']:.4f},\n   Val R²: {results_weak['val_mean']:.4f},\n   Test R² (all): {results_weak['test_all']:.4f},\n   Test R² (subset): {results_weak['test_sub']:.4f},\n   Test R² (inverse): {results_weak['test_inv']:.4f}")
-    logging.info(f"Strong Reg (α={alpha_strong}):\n   Train R²: {results_strong['train_mean']:.4f},\n   Val R²: {results_strong['val_mean']:.4f},\n   Test R² (all): {results_strong['test_all']:.4f},\n   Test R² (subset): {results_strong['test_sub']:.4f},\n   Test R² (inverse): {results_strong['test_inv']:.4f}")
+    logging.info(f"α={alpha_weak}:\n   Train R²: {results_weak['train_mean']:.4f},\n   Val R²: {results_weak['val_mean']:.4f},\n   Test R² (all): {results_weak['test_all']:.4f},\n   Test R² (subset): {results_weak['test_sub']:.4f},\n   Test R² (inverse): {results_weak['test_inv']:.4f}")
+    logging.info(f"α={alpha_strong}:\n   Train R²: {results_strong['train_mean']:.4f},\n   Val R²: {results_strong['val_mean']:.4f},\n   Test R² (all): {results_strong['test_all']:.4f},\n   Test R² (subset): {results_strong['test_sub']:.4f},\n   Test R² (inverse): {results_strong['test_inv']:.4f}")
 else:
-    logging.info(f"Weak Reg (α={alpha_weak}):\n   Train R²: {results_weak['train_mean']:.4f},\n   Val R²: {results_weak['val_mean']:.4f},\n   Test R²: {results_weak['test']:.4f}")
-    logging.info(f"Strong Reg (α={alpha_strong}):\n   Train R²: {results_strong['train_mean']:.4f},\n   Val R²: {results_strong['val_mean']:.4f},\n   Test R²: {results_strong['test']:.4f}")
-
+    logging.info(f"α={alpha_weak}:\n   Train R²: {results_weak['train_mean']:.4f},\n   Val R²: {results_weak['val_mean']:.4f},\n   Test R²: {results_weak['test']:.4f}")
+    logging.info(f"α={alpha_strong}:\n   Train R²: {results_strong['train_mean']:.4f},\n   Val R²: {results_strong['val_mean']:.4f},\n   Test R²: {results_strong['test']:.4f}")
 
 # === End timing ===
 log_end_time = datetime.now()
