@@ -6,6 +6,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from utils.data_loader import load_flags
 from astropy.timeseries import LombScargle
+from scipy.signal import find_peaks
 
 def format_ticks(ax, tick_interval, tick_step):
     if tick_interval == 'monthly':
@@ -46,7 +47,8 @@ def plot_orbital_decay(
     Lombscargle=False,
     style='default',
     figsize=(12, 6),
-    show=True
+    show=True,
+    font_size=12
 ):
     """
     Plot orbital decay with optional flags.
@@ -73,6 +75,7 @@ def plot_orbital_decay(
         Whether to call plt.show().
     """
     plt.style.use(style)
+    plt.rcParams.update({'font.size': font_size})
 
     # infer date range if not provided
     if start_date is None:
@@ -137,14 +140,14 @@ def plot_orbital_decay(
         ax.plot(times, subset['orbital_decay'], color='tab:blue', alpha=0.7, label='New Data')
         ax.plot(old_time, subset_old['orbital_decay'], color='tab:red', alpha=0.3, label='Old Data')
     else:
-        ax.plot(times, subset['orbital_decay'], color='tab:blue', label='Orbital Decay')
+        ax.plot(times, subset['orbital_decay'], color='tab:blue')
 
     format_ticks(ax, tick_interval, tick_step)
     ax.set_xlabel('Time')
-    ax.set_ylabel('Orbital Decay')
+    ax.set_ylabel('Orbital Decay [m/day]')
     start_str = pd.to_datetime(start_date).strftime("%Y-%m-%d")
     end_str   = pd.to_datetime(end_date).strftime("%Y-%m-%d")
-    fig.suptitle(f'Orbital Decay Over Time\n{start_str} to {end_str}', fontsize=16)
+    # fig.suptitle(f'Orbital Decay Over Time\n{start_str} to {end_str}', fontsize=16)
     ax.grid(True)
 
     if FLAGS:
@@ -155,7 +158,8 @@ def plot_orbital_decay(
                   ncols=4, mode="expand", borderaxespad=0.)
         plt.tight_layout(rect=[0, 0, 1, 1.02])
     else:
-        ax.legend()
+        if not subset_old.empty:
+            ax.legend()
         plt.tight_layout()
 
     if show:
@@ -209,6 +213,7 @@ def plot_lombscargle_periodogram(
     print_period='days',
     style='default',
     figsize=(10, 5),
+    font_size=12,
     show=True
 ):
     """
@@ -230,6 +235,7 @@ def plot_lombscargle_periodogram(
         Whether to call plt.show().
     """
     plt.style.use(style)
+    plt.rcParams.update({'font.size': font_size})
 
     # infer date range if not provided
     if start_date is None:
@@ -255,12 +261,8 @@ def plot_lombscargle_periodogram(
     ls = LombScargle(times_num, y)
     power = ls.power(frequency)
 
-    # Find the period with the highest power
-    best_frequency = frequency[np.argmax(power)]
-    best_period = 1 / best_frequency
-
     # Plot the periodogram
-    plt.figure(figsize=(10, 5))
+    plt.figure(figsize=figsize)
     plt.plot(1/frequency, power)
     plt.xlabel('Period (days)')
     plt.ylabel('Lomb-Scargle Power')
@@ -277,9 +279,23 @@ def plot_lombscargle_periodogram(
         plt.legend()
     plt.show()
 
-    if print_period == 'days':
-        print(f"Strongest period: {best_period:.2f} days")
-    elif print_period == 'hours':
-        print(f"Strongest period: {best_period*24:.2f} hours")
-    elif print_period == 'minutes':
-        print(f"Strongest period: {best_period*24*60:.2f} minutes")
+    # Find the periods with the highest power
+    # Find all local maxima
+    peaks, properties = find_peaks(power, prominence=0.0001, distance=5)
+
+    # Sort peaks by power (descending)
+    sorted_peak_indices = peaks[np.argsort(power[peaks])[::-1]]
+
+    # Take the top 10 peaks
+    top_peaks = sorted_peak_indices[:10]
+
+    top_periods = 1 / frequency[top_peaks]
+    top_powers = power[top_peaks]
+
+    for i, (period, pwr) in enumerate(zip(top_periods, top_powers), 1):
+        if print_period == 'days':
+            print(f"{i}. Period: {period:.2f} days (Power: {pwr:.4f})")
+        elif print_period == 'hours':
+            print(f"{i}. Period: {period*24:.2f} hours (Power: {pwr:.4f})")
+        elif print_period == 'minutes':
+            print(f"{i}. Period: {period*24*60:.2f} minutes (Power: {pwr:.4f})")
