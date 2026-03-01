@@ -278,7 +278,6 @@ def plot_lombscargle_periodogram(
         plt.axvline(35, color='purple', linestyle='--', linewidth=2, label='Solar rotation (Near Pole, 35d)')
         plt.legend()
     plt.show()
-
     # Find the periods with the highest power
     # Find all local maxima
     peaks, properties = find_peaks(power, prominence=0.0001, distance=5)
@@ -292,10 +291,62 @@ def plot_lombscargle_periodogram(
     top_periods = 1 / frequency[top_peaks]
     top_powers = power[top_peaks]
 
-    for i, (period, pwr) in enumerate(zip(top_periods, top_powers), 1):
+    # error calculation
+
+    period_errors = []
+
+    for peak in top_peaks:
+        f0 = frequency[peak]
+        p0 = power[peak]
+        half_power = p0 / 2.0
+
+        # --- Search left ---
+        left_idx = peak
+        while left_idx > 0 and power[left_idx] > half_power:
+            left_idx -= 1
+
+        # Linear interpolation (left crossing)
+        f_left = np.interp(
+            half_power,
+            [power[left_idx], power[left_idx + 1]],
+            [frequency[left_idx], frequency[left_idx + 1]]
+        )
+
+        # --- Search right ---
+        right_idx = peak
+        while right_idx < len(power) - 1 and power[right_idx] > half_power:
+            right_idx += 1
+
+        # Linear interpolation (right crossing)
+        f_right = np.interp(
+            half_power,
+            [power[right_idx - 1], power[right_idx]],
+            [frequency[right_idx - 1], frequency[right_idx]]
+        )
+
+        # Convert to periods
+        P0 = 1.0 / f0
+        P_left = 1.0 / f_left
+        P_right = 1.0 / f_right
+
+        # Asymmetric errors
+        err_plus = P_left - P0
+        err_minus = P0 - P_right
+
+        period_errors.append((P0, err_plus, err_minus))
+    
+    # printing results
+    for i, (P0, err_plus, err_minus) in enumerate(period_errors, 1):
+
         if print_period == 'days':
-            print(f"{i}. Period: {period:.2f} days (Power: {pwr:.4f})")
+            scale = 1
+            unit = "days"
         elif print_period == 'hours':
-            print(f"{i}. Period: {period*24:.2f} hours (Power: {pwr:.4f})")
+            scale = 24
+            unit = "hours"
         elif print_period == 'minutes':
-            print(f"{i}. Period: {period*24*60:.2f} minutes (Power: {pwr:.4f})")
+            scale = 24 * 60
+            unit = "minutes"
+
+        print(f"{i}. Period: {P0*scale:.4f} +{err_plus*scale:.4f} "
+            f"-{err_minus*scale:.4f} {unit}")
