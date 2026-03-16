@@ -110,6 +110,42 @@ In this section, the structure of the repository is displayed along with some ex
         
         **Description:** Compare the different subsets and create visualisation plots.
 
+- Dataset
+    - Dataset_ICMECAT
+    
+    **Description:** Contains the scripts to download and process the *Helio4cast* ICME catalogue and the *R&C* ICME catalogue.
+    - Dataset_IPshocks
+
+    **Description:** Contains the script to convert the downloaded *IPShock* catalogue into csv format.
+    - Dataset_MSc
+
+    **Description:** Contains the scripts that were used for the inital evaluation of the Dataset provided by V. Mercea.
+    - modeling
+        - `setup_Dataset.py`
+
+        **Description:** This script was used to create a trimmed-down version of the original dataset and adds some of the later used parameters (median decay rates, trend).
+        - `resample_add.ipynb`
+
+        **Description:** Used to resample the dataset from the original sampling rate (20s) to different sampling ratess (1min, 5min). Can also be used to add parameters to the dataset.
+        - `create_Xy.py` 
+
+        **Description:** Setup and create the lagged feature matrix `X` and the target matrix `y`.
+        - `test.ipynb`
+
+        **Description:** Used for testing the resulting dataset.
+        - `test2.ipynb`
+
+        **Description:** Used for testing the resulting Matrices `X` and `y`.
+
+    **Description:** 
+    - `create_flags.ipynb`
+
+    **Description:** 
+    - `Dataset_Documentation.txt`
+
+    **Description:** 
+
+
 - utils
 
     **Description:** Contains functions that were used in multiple scripts and important as packages. They are grouped into different scripts based on their function (data loading, plotting, modeling)
