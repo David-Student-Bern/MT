@@ -137,13 +137,12 @@ In this section, the structure of the repository is displayed along with some ex
 
         **Description:** Used for testing the resulting Matrices `X` and `y`.
 
-    **Description:** 
     - `create_flags.ipynb`
 
-    **Description:** 
+    **Description:** for creating binary event flags that can be added directly into the dataset (not used in the end)
     - `Dataset_Documentation.txt`
 
-    **Description:** 
+    **Description:** Descriptions of the different datasets.
 
 
 - utils
