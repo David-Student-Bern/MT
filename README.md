@@ -1,12 +1,16 @@
 # MT
 
-This repository contains all the code used for my Master Thesis. It does not include the datasets used to 
+This repository contains all the code used for my Master Thesis. It does not include the datasets used, that were:
 
-The repository is missing two large datafiles
-- Dataset/Dataset_MSc/GFOC_RDCDFI.csv
-- Dataset/Dataset_MSc/SWMA_RDAWFI.csv
+- `Dataset\Dataset_MSc\GFOC_RDCDFI.parquet`
+- `Dataset\Dataset_IPshocks\shocks_GFOC.csv`
+- `Dataset\Dataset_ICMECAT\helio4cast_icmecat_GFOC.csv`
+- `Dataset\Dataset_ICMECAT\RC_icmecat_GFOC.csv`
 
-It includes code from other sources, namely:
+It includes code from other sources, such as the code used for downloading the shock and ICME catalogues. Also some of the code in `Analysis\modeling` was inspired by [an online tutorial](https://www.kaggle.com/learn/time-series).
+
+## Use of AI
+For programming tasks, *GitHub Copilot* was primarily used within the GitHub repository to assist with code autocompletion and the generation of code fragments, including functions and plotting routines. In addition, *ChatGPT* was occasionally used to assist with debugging, adapting existing functions to new configurations, and suggesting alternative implementations. For the SHAP-based feature importance analysis, initial code drafts were generated with *ChatGPT* based on user instructions and subsequently modified and validated by the author.
 
 
 ## Structure of Repository
