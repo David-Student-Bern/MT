@@ -109,4 +109,6 @@ In this section, the structure of the repository is displayed along with some ex
         - `interesting_subsets_compare.ipynb`
         
         **Description:** Compare the different subsets and create visualisation plots.
-        
+
+- utils
+    **Description:** Contains functions that were used in multiple scripts and important as packages. They are grouped into different scripts based on their function (data loading, plotting, modeling)
