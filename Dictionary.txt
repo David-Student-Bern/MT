@@ -56,3 +56,19 @@ GIC	geomagnetically induced currents
 ---
 intense, low-frequency currents induced in large conductive systems like power lines and pipelines$
 
+---
+AE index	Auroral Electrojet Index (AE) 
+---
+he Auroral Electrojet Index, AE, is designed to provide a global, quantitative measure of auroral zone magnetic activity produced by enhanced Ionospheric currents flowing below and within the auroral oval. Ideally, It is the total range of deviation at an instant of time from quiet day values of the horizontal magnetic field (H) around the auroral oval.
+
+---
+Dst index	(hourly resolution)
+---
+Equatorial index horizontal component disturbances
+
+---
+SYM-H index
+---
+To describe the geomagnetic disturbances at mid-latitudes in terms of longitudinally asymmetric (ASY) and symmetric (SYM) disturbances for both H and D components respectively parallel and perpendicular to the dipole axis.
+SYM-H is essentially the same as the Dst index with a different time resolution. 
+
