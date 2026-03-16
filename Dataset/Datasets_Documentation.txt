@@ -1,0 +1,103 @@
+This is a list of all the different datasets I collected.
+
+
+==========================================================================================
+Dataset MSc
+==========================================================================================
+
+--------
+- Dataset/Dataset_MSc/GFOC_RDCDFI.csv
+
+# Origin: Compilation of different sources by Vanessa Marcea
+# Time range: 2023-01-02 12:00:00 to 2024-06-30 11:59:30
+
+----
+
+- Dataset/Dataset_MSc/SWMA_RDAWFI.csv
+
+# Origin: Compilation of different sources by Vanessa Marcea
+# Time range: 2023-01-02 12:00:00 to 2024-05-30 11:59:00
+--------
+
+
+------------------------------------------------------------------------------------------
+# Content
+These two dataset contain data from other catalogs (same in both datasets):
+    - OMNI - magnetic field and plasma data sets shifted to the Earth's bow shock nose 
+    - LASP
+
+and information unique to either GRACE-FO-C (GFOC) or SWARM-A (SWMA):
+    - BERNESE
+    - SPACETRACK
+    - STL
+    - DECAY RATES
+    - GENERAL
+    - MANEUVER FLAGS
+    - OTHER NOTES
+
+for more detailed information about these categories see Dataset/Dataset_MSc/data_doc_all.json.
+
+==========================================================================================
+Dataset ICMECAT - Helio Catalog
+==========================================================================================
+
+Source:
+https://helioforecast.space/icmecat
+Download Instructions:
+https://colab.research.google.com/drive/1_zJMGJnX3XJx7FCHD04SC3Y0KCMdDGMz
+
+# Description: 
+"HELIO4CAST interplanetary coronal mass ejection (ICME) catalog (ICMECAT), 
+based on in situ magnetic field and bulk plasma observations in the heliosphere."
+
+--------
+(original download)
+- Dataset/Dataset_ICMECAT/HELIO4CAST_ICMECAT_v23.csv
+(filtered for WIND)
+- Dataset/Dataset_ICMECAT/helio4cast_icmecat.csv
+(filtered for WIND and GFOC time range)
+- Dataset/Dataset_ICMECAT/helio4cast_icmecat_GFOC.csv
+
+# Time range: 1990-12-11 04:00 to 2024-12-20 22:34
+
+--------
+
+==========================================================================================
+Dataset ICMECAT - RC Catalog (Compiled by Ian Richardson and Hilary Cane)
+==========================================================================================
+
+Source:
+https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/C2MHTH&version=3.0
+Description:
+"This list of near-Earth interplanetary coronal mass ejections (ICMEs), believed to be the
+interplanetary manifestations of the coronal mass ejections seen near the Sun by coronagraphs,..."
+
+--------
+(original download)
+- Dataset/Dataset_ICMECAT/icmetable2.html
+(converted to csv)
+- Dataset/Dataset_ICMECAT/RC_icmecat.csv
+(modified date format and only important parameters)
+- Dataset/Dataset_ICMECAT/RC_icmecat_dates.csv
+(modified date format and only important parameters in GFOC time range)
+- Dataset/Dataset_ICMECAT/RC_icmecat_GFOC.csv 
+
+# Time range: 1996/05/27 1500 to 2025/01/03 2200
+
+==========================================================================================
+Dataset IPshocks - Interplenetary Shock Catalog
+==========================================================================================
+
+Source:
+https://ipshocks.helsinki.fi/database
+Description:
+"Comprehensive database of interplanetary shocks."
+
+(original download)
+- Dataset/Dataset_IPshocks/shocks_20250514_121541.dat
+(converted to csv + time format update)
+- Dataset/Dataset_IPshocks/shocks_20250514_121541.csv 
+(time format update + filtered for GFOC time range)
+- Dataset/Dataset_IPshocks/shocks_GFOC.csv 
+
+# Time range: 1981-02-06 08:45:30 to 2024-03-25 10:04:50

@@ -13,18 +13,21 @@ Dataset/Dataset_MSc/Manuevers/
 Dataset/Dataset_MSc/Residuals/
 utils/__pycache__/
 temp/
-Dataset/
 
 # Ignore the Dataset symlink (sml)
-Dataset
 
 # Ignore specific files
 Workdays.ods
 github.txt
 Dataset/*.csv
 Dataset/**/*.csv
+Dataset/Dataset_MSc/*.txt
 Dataset/Dataset_MSc/*.csv
-Dataset/Dataset_MSc/*.parquet
+Dataset/*/*.parquet
+Dataset/*/*.dat
+Dataset/*/*.pdf
+Dataset/*/*.html
+Dataset/*/*.json
 Analysis/Orbital_Decay/Trend_Removal/lowess_tutorial.ipynb
 Analysis/Orbital_Decay/Trend_Removal/test.ipynb
 Analysis/Orbital_Decay/Trend_Removal/lowess_a.ipynb
